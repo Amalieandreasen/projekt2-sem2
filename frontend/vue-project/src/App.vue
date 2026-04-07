@@ -3,9 +3,7 @@ import AdminPanel from './components/AdminPanel.vue';
 </script>
 
 <template>
-  <div>
-    <h1>hej</h1>
-  </div>
+  <router-view />
 </template>
 
 <style scoped></style>
