@@ -23,8 +23,7 @@
   /* SURFACE */
   --color-surface: #ffffff;
   --color-surface-muted: #f9fafb;
-  --color-surface-dark: #000000;
-  --color-surface-dark-hover: rgb(147, 147, 147);
+  --color-surface-dark: #4438ca39;
 
   /* BORDER */
   --color-border: #d1d5db;

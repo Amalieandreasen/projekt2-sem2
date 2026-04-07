@@ -57,7 +57,7 @@ function setTab(tab) {
   cursor: pointer;
   font-size: var(--text-xs);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-white);
+  color: var(--color-black);
   transition: var(--transition-fast);
   display: flex;
   align-items: center;
@@ -66,7 +66,7 @@ function setTab(tab) {
 }
 
 .tab-button:hover {
-  background: var(--color-surface-dark-hover);
+  background: var( --color-primary-hover);
   color: var(--color-white);
 }
 
