@@ -1,0 +1,37 @@
+[
+  {
+    "username": "Richard",
+    "password": "$argon2id$v=19$m=65536,t=3,p=4$jb9714YDzbvtxV5GkqqHzw$6uwz6Qjy1c3QDGkk2HzjfqJ0t55vWlS5jQkx7bq1psw",
+    "role": "admin"
+  },
+  {
+    "username": "Laila",
+    "password": "$argon2id$v=19$m=65536,t=3,p=4$VJDrOFaF8TUhGfHRvtdHyQ$ozHmZmPq4DXSmMLclMpQOjpqxf+ax+UXbMT02jNB3+Y",
+    "role": "admin"
+  },
+  {
+    "username": "Mathias",
+    "password": "$argon2id$v=19$m=65536,t=3,p=4$z6SemqX+xwvd1YAKwizy9Q$ZIKvHzkSRdK8AVLny1NUn8RtwJOW5fT51P3lt9DZJ3w",
+    "role": "user"
+  },
+  {
+    "username": "Malou",
+    "password": "$argon2id$v=19$m=65536,t=3,p=4$dhuc2yC6yuN3NKrcgWyhvw$VlIVn9HpfJ1on8zLA9WwJBnM2u6k5LkvWppXw88aZxc",
+    "role": "user"
+  },
+  {
+    "username": "Mikkel",
+    "password": "$argon2id$v=19$m=65536,t=3,p=4$Ram+JkU7lnJY8YpVVmeMZg$fws15P/9c0W9dvryM6IQM7YbpUTf3eDu29bFL1kA6r4",
+    "role": "user"
+  },
+  {
+    "username": "Amalie",
+    "password": "$argon2id$v=19$m=65536,t=3,p=4$R8FUZHTOkOp9N4ncO/Z+AA$z11ZuTEMYCQ97D9xAmqctke27DU79c3H3SgArXSiLMM",
+    "role": "user"
+  },
+  {
+    "username": "testuser",
+    "password": "$argon2id$v=19$m=65536,t=3,p=4$T2ZXzVbnq1qq3sS/NuRqZQ$HDP9PN9RA4X9Nf9tB4sDu5WOxd0GaAgSi4fk0yVI3Jk",
+    "role": "user"
+  }
+]

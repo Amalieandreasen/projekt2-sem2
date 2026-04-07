@@ -1,0 +1,96 @@
+{
+  "id": 1,
+  "quizName": "CSS Basics",
+  "description": "Grundlæggende CSS spørgsmål",
+  "questions": [
+    {
+      "id": 1,
+      "type": "single",
+      "question": "Hvad står CSS for?",
+      "options": [
+        "Computer Style Sheets",
+        "Cascading Style Sheets",
+        "Creative Style System",
+        "Colorful Style Sheets"
+      ],
+      "answer": [1]
+    },
+    {
+      "id": 2,
+      "type": "single",
+      "question": "Hvordan ændrer man tekstfarve i CSS?",
+      "options": ["font-color", "text-color", "color", "text-style"],
+      "answer": [2]
+    },
+    {
+      "id": 3,
+      "type": "multiple",
+      "question": "Hvilke er gyldige CSS selectors?",
+      "options": [".class", "#id", "div", "@selector"],
+      "answer": [0, 1, 2]
+    },
+    {
+      "id": 4,
+      "type": "single",
+      "question": "Hvad gør <strong>margin</strong>?",
+      "options": [
+        "Tilføjer plads inde i elementet",
+        "Tilføjer plads udenfor elementet",
+        "Ændrer tekst",
+        "Centrerer elementet"
+      ],
+      "answer": [1]
+    },
+    {
+      "id": 5,
+      "type": "multiple",
+      "question": "Hvilke enheder findes i CSS?",
+      "options": ["px", "em", "rem", "kg"],
+      "answer": [0, 1, 2]
+    },
+    {
+      "id": 6,
+      "type": "single",
+      "question": "Hvad bruges <strong>display: flex</strong> til?",
+      "options": [
+        "At style tekst",
+        "At lave layouts",
+        "At ændre farver",
+        "At tilføje animationer"
+      ],
+      "answer": [1]
+    },
+    {
+      "id": 7,
+      "type": "cloze",
+      "question": "Hvad hedder property til baggrundsfarve?",
+      "answer": ["background-color"]
+    },
+    {
+      "id": 8,
+      "type": "single",
+      "question": "Hvad gør <strong>padding</strong>?",
+      "options": [
+        "Plads udenfor element",
+        "Plads inde i element",
+        "Ændrer font",
+        "Skjuler element"
+      ],
+      "answer": [1]
+    },
+    {
+      "id": 9,
+      "type": "single",
+      "question": "Hvilket symbol bruges til class selector?",
+      "options": ["#", ".", "*", "@"],
+      "answer": [1]
+    },
+    {
+      "id": 10,
+      "type": "multiple",
+      "question": "Hvilke er layout metoder i CSS?",
+      "options": ["Flexbox", "Grid", "Float", "Console"],
+      "answer": [0, 1, 2]
+    }
+  ]
+}
