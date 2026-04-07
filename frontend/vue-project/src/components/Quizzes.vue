@@ -1,4 +1,7 @@
 <script setup>
+import { ref } from 'vue'
+import UploadQuizModal from './UploadQuizModal.vue';
+const showModal = ref(false)
 const quizzes = [
     { id: 1, name: 'JavaScript Grundlæggende', questions: 20, created: '2026-03-15', status: 'Aktiv' },
     { id: 2, name: 'React Hooks', questions: 15, created: '2026-03-20', status: 'Aktiv' },
@@ -15,9 +18,14 @@ const quizzes = [
                 <h2>Quiz Filer</h2>
                 <p>Upload, administrer og slet quiz filer</p>
             </div>
-
-            <button class="action-btn">Upload Quiz</button>
+            <div>
+                <button class="action-btn" @click="showModal = true">
+                    Upload Quiz
+                </button>
+            </div>
         </div>
+
+        <UploadQuizModal :isOpen="showModal" @close="showModal = false" />
 
         <table class="data-table">
             <thead>
