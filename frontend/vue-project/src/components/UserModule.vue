@@ -1,4 +1,8 @@
 <script setup>
+import { ref } from 'vue'
+import CreateUserModal from './CreateUserModal.vue'
+
+const showCreateUserModal = ref(false)
 const users = [
     { id: 1, username: 'anna_hansen', email: 'anna@eksempel.dk', role: 'Bruger', joined: '2026-03-10', quizzesTaken: 12 },
     { id: 2, username: 'peter_nielsen', email: 'peter@eksempel.dk', role: 'Bruger', joined: '2026-03-12', quizzesTaken: 8 },
@@ -17,7 +21,9 @@ const users = [
                 <p>Administrer brugere og roller</p>
             </div>
 
-            <button class="action-btn">Tilføj Bruger</button>
+            <button class="action-btn" @click="showCreateUserModal = true">
+                Tilføj Bruger
+            </button>
         </div>
 
         <table class="data-table">
@@ -49,6 +55,7 @@ const users = [
                 </tr>
             </tbody>
         </table>
+        <CreateUserModal :isOpen="showCreateUserModal" @close="showCreateUserModal = false" />
     </section>
 </template>
 

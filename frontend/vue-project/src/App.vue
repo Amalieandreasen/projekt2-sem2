@@ -5,7 +5,6 @@ import AdminPanel from './components/AdminPanel.vue';
 <template>
   <div>
     <h1>hej</h1>
-    <AdminPanel />
   </div>
 </template>
 

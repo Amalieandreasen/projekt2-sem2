@@ -1,116 +1,89 @@
 <script setup>
+import { ref } from 'vue'
+import BaseModal from './BaseModal.vue'
+
 defineProps({
     isOpen: Boolean
 })
 
 const emit = defineEmits(['close'])
+
+const quizName = ref('')
+const selectedFile = ref(null)
+
+function handleFileChange(event) {
+    selectedFile.value = event.target.files[0] || null
+}
+
+function handleSubmit() {
+    console.log('Upload quiz:', {
+        quizName: quizName.value,
+        file: selectedFile.value
+    })
+}
 </script>
 
 <template>
-    <div v-if="isOpen" class="overlay" @click.self="emit('close')">
-        <div class="modal">
-            <div class="modal-header">
-                <div>
-                    <h2>Upload Quiz Fil</h2>
-                    <p>Upload en quiz fil i JSON format</p>
-                </div>
-
-                <button class="close-btn" @click="emit('close')">✕</button>
-            </div>
-
-            <div class="form">
-                <label>Quiz Navn</label>
-                <input placeholder="F.eks. JavaScript Avanceret" />
-
-                <label>Quiz Fil</label>
-                <input type="file" />
-
-                <div class="info-box">
-                    <strong>Quiz Format (JSON):</strong>
-                    <ul>
-                        <li>Single-choice, multiple-choice</li>
-                        <li>HTML tags tilladt</li>
-                        <li>Script tags fjernes automatisk</li>
-                    </ul>
-                </div>
-
-                <button class="upload-btn">Upload Quiz</button>
-            </div>
+    <BaseModal :isOpen="isOpen" title="Upload Quiz Fil" subtitle="Upload en quiz fil i JSON format" width="460px"
+        @close="emit('close')">
+        <div class="form-group">
+            <label>Quiz Navn</label>
+            <input v-model="quizName" type="text" placeholder="F.eks. JavaScript Avanceret" />
         </div>
-    </div>
+
+        <div class="form-group">
+            <label>Quiz Fil</label>
+            <input type="file" @change="handleFileChange" />
+        </div>
+
+        <div class="info-box">
+            <strong>Quiz Format (JSON):</strong>
+            <ul>
+                <li>Spørgsmålstyper: single-choice, multiple-choice</li>
+                <li>Simple HTML-tags kan tillades</li>
+                <li>Scripts fjernes automatisk</li>
+            </ul>
+        </div>
+
+        <button class="primary-btn" @click="handleSubmit">Upload Quiz</button>
+    </BaseModal>
 </template>
 
 <style scoped>
-.overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.modal {
-    width: 420px;
-    background: white;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    margin-bottom: 20px;
-}
-
-.modal-header h2 {
-    margin: 0;
-    font-size: 18px;
-}
-
-.modal-header p {
-    margin: 4px 0 0;
-    font-size: 13px;
-    color: #666;
-}
-
-.close-btn {
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.form {
+.form-group {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 600;
 }
 
 input {
-    padding: 10px;
-    border: 1px solid #ddd;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
     border-radius: 8px;
 }
 
 .info-box {
-    background: #eef4ff;
+    margin-bottom: 16px;
     padding: 12px;
     border-radius: 10px;
+    background: #eef4ff;
     font-size: 13px;
 }
 
-.upload-btn {
-    margin-top: 10px;
-    background: #0b0b23;
-    color: white;
+.primary-btn {
+    width: 100%;
     border: none;
+    background: #020617;
+    color: white;
     padding: 12px;
     border-radius: 10px;
-    cursor: pointer;
     font-weight: 600;
+    cursor: pointer;
 }
 </style>
