@@ -1,9 +1,11 @@
 {
+    "quizId": "css-quiz-easy",
     "quizName": "CSS Quiz - Let",
     "numberOfQuestions": 12,
     "difficulty": "Let",
     "questions": [
         {
+            "id": "css-easy-q1",
             "type": "single",
             "question": "Hvad står <strong>CSS</strong> for?",
             "options": [
@@ -17,6 +19,7 @@
             ]
         },
         {
+            "id": "css-easy-q2",
             "type": "single",
             "question": "Hvilken CSS-egenskab bruges til at ændre tekstfarve?",
             "options": [
@@ -30,6 +33,7 @@
             ]
         },
         {
+            "id": "css-easy-q3",
             "type": "single",
             "question": "Hvordan vælger man et element med id'et <strong>header</strong> i CSS?",
             "options": [
@@ -43,6 +47,7 @@
             ]
         },
         {
+            "id": "css-easy-q4",
             "type": "single",
             "question": "Hvordan vælger man alle elementer med klassen <strong>menu</strong>?",
             "options": [
@@ -56,6 +61,7 @@
             ]
         },
         {
+            "id": "css-easy-q5",
             "type": "single",
             "question": "Hvilken CSS-egenskab bruges til at ændre baggrundsfarven?",
             "options": [
@@ -69,6 +75,7 @@
             ]
         },
         {
+            "id": "css-easy-q6",
             "type": "multiple",
             "question": "Hvilke af følgende er <strong>gyldige CSS-selektorer</strong>?",
             "options": [
@@ -84,6 +91,7 @@
             ]
         },
         {
+            "id": "css-easy-q7",
             "type": "multiple",
             "question": "Hvilke egenskaber bruges til afstand i CSS?",
             "options": [
@@ -98,6 +106,7 @@
             ]
         },
         {
+            "id": "css-easy-q8",
             "type": "multiple",
             "question": "Hvilke udsagn om CSS er korrekte?",
             "options": [
@@ -113,6 +122,7 @@
             ]
         },
         {
+            "id": "css-easy-q9",
             "type": "multiple",
             "question": "Hvilke værdier kan bruges sammen med <strong>position</strong> i CSS?",
             "options": [
@@ -128,6 +138,7 @@
             ]
         },
         {
+            "id": "css-easy-q10",
             "type": "cloze",
             "question": "Hvilken CSS-egenskab bruges til at gøre tekst <span style=\"font-style: italic;\">kursiv</span>?",
             "answer": [
@@ -135,6 +146,7 @@
             ]
         },
         {
+            "id": "css-easy-q11",
             "type": "cloze",
             "question": "Hvilken værdi bruges i <strong>display</strong> for at aktivere flexbox?",
             "answer": [
@@ -142,6 +154,7 @@
             ]
         },
         {
+            "id": "css-easy-q12",
             "type": "cloze",
             "question": "Hvilken CSS-egenskab bruges til at ændre skriftstørrelsen?",
             "answer": [
