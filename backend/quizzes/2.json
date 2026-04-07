@@ -1,0 +1,95 @@
+{
+  "id": 2,
+  "quizName": "Advanced CSS",
+  "description": "Avanceret CSS for webudviklere",
+  "questions": [
+    {
+      "id": 1,
+      "type": "single",
+      "question": "Hvad er default value for <strong>position</strong>?",
+      "options": ["relative", "absolute", "static", "fixed"],
+      "answer": [2]
+    },
+    {
+      "id": 2,
+      "type": "multiple",
+      "question": "Hvilke position values findes?",
+      "options": ["static", "relative", "absolute", "dynamic"],
+      "answer": [0, 1, 2]
+    },
+    {
+      "id": 3,
+      "type": "single",
+      "question": "Hvad gør <strong>z-index</strong>?",
+      "options": [
+        "Ændrer størrelse",
+        "Styrer lag (stacking order)",
+        "Ændrer farve",
+        "Centrerer elementer"
+      ],
+      "answer": [1]
+    },
+    {
+      "id": 4,
+      "type": "multiple",
+      "question": "Hvilke værdier kan <strong>display</strong> have?",
+      "options": ["block", "inline", "flex", "center"],
+      "answer": [0, 1, 2]
+    },
+    {
+      "id": 5,
+      "type": "cloze",
+      "question": "Hvad hedder CSS layout systemet med rækker og kolonner?",
+      "answer": ["grid", "css grid"]
+    },
+    {
+      "id": 6,
+      "type": "single",
+      "question": "Hvad gør <strong>overflow: hidden</strong>?",
+      "options": [
+        "Scroller automatisk",
+        "Skjuler indhold der går udenfor",
+        "Centrerer element",
+        "Tilføjer margin"
+      ],
+      "answer": [1]
+    },
+    {
+      "id": 7,
+      "type": "multiple",
+      "question": "Hvad påvirker specificity?",
+      "options": [
+        "inline styles",
+        "id selectors",
+        "class selectors",
+        "kommentarer"
+      ],
+      "answer": [0, 1, 2]
+    },
+    {
+      "id": 8,
+      "type": "single",
+      "question": "Hvad gør <strong>flex-grow</strong>?",
+      "options": [
+        "Gør tekst større",
+        "Lader element fylde ekstra plads",
+        "Ændrer farve",
+        "Tilføjer margin"
+      ],
+      "answer": [1]
+    },
+    {
+      "id": 9,
+      "type": "multiple",
+      "question": "Hvilke pseudo-klasser findes?",
+      "options": [":hover", ":active", ":focus", ":click"],
+      "answer": [0, 1, 2]
+    },
+    {
+      "id": 10,
+      "type": "cloze",
+      "question": "Hvad hedder funktionen til at lave responsive breakpoints?",
+      "answer": ["media query", "@media"]
+    }
+  ]
+}

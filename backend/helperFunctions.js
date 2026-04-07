@@ -1,4 +1,3 @@
-import { writeFile } from "fs";
 import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -7,10 +6,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const USERS_FILE = path.join(__dirname, "users.json");
 const QUIZ_DIR = path.join(__dirname, "quizzes");
-const RESULTS_FILE = path.join(__dirname, "results");
+const RESULTS_FILE = path.join(__dirname, "results.json");
 
 // læs brugere
-export const readUsers = async () => {
+export async function readUsers() {
   try {
     const data = await fs.readFile(USERS_FILE, "utf-8");
     return JSON.parse(data);
@@ -18,12 +17,12 @@ export const readUsers = async () => {
     if (err.code === "ENOENT") return [];
     throw err;
   }
-};
+}
 
-// tilføj brugere
-export const writeUsers = async (users) => {
+// gemme data til brugere i users.json
+export async function writeUsers() {
   await fs.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
-};
+}
 
 // valider password
 export function validatePassword(password) {
@@ -60,21 +59,21 @@ export async function readQuizzes() {
   }
 }
 
-// tilføj quiz
+// gemmer quix som json fil
 export async function writeQuiz(quiz) {
   const filePath = path.join(QUIZ_DIR, `${quiz.id}.json`);
   await fs.writeFile(filePath, JSON.stringify(quiz, null, 2));
 }
 
 // slet quiz
-export async function deleteQuiz(quizId) {
-  const filePath = path.join(QUIZ_DIR, `${quizId}.json`);
-  console.log("Looking for:", filePath);
-  console.log("Exists?", fs.existsSync(filePath));
+export async function deleteQuiz(id) {
+  const filePath = path.join(QUIZ_DIR, `${id}.json`);
   try {
     await fs.unlink(filePath);
-  } catch {
-    throw new Error("Not found");
+    return true;
+  } catch (err) {
+    if (err.code === "ENOENT") return false;
+    throw err;
   }
 }
 
@@ -89,7 +88,7 @@ export async function readResults() {
   }
 }
 
-// skriv til filen
+// gemmer hele listen af resultater i results.json
 export async function writeResults(results) {
   await fs.writeFile(RESULTS_FILE, JSON.stringify(results, null, 2));
 }

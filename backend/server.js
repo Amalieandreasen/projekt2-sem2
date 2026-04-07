@@ -10,10 +10,10 @@ import {
   validatePassword,
   readQuizzes,
   writeQuiz,
-  deleteQuiz,
   readResults,
   addResults,
   shuffleArray,
+  deleteQuiz,
 } from "./helperFunctions.js";
 import { hashPassword, verifyPassword } from "./hash.js";
 import { sanitizeQuestion } from "./sanitize.js";
@@ -171,24 +171,15 @@ app.post("/api/admin/quizzes", requireAuth, isAdmin, async (req, res) => {
   const quizToWrite = { ...quiz, id: quiz.id };
 
   quizToWrite.questions = quiz.questions.map((q, index) => ({
-    id: q.id ?? index,
-    ...q,
+    id: q.id || index + 1,
+    type: q.type,
+    question: q.question,
+    options: q.options || [],
+    answer: q.answer,
   }));
 
   await writeQuiz(quizToWrite);
   res.status(201).json({ message: "Quiz oprettet", quiz: quizToWrite });
-});
-
-// slet quiz (admin route)
-app.delete("/api/admin/quizzes/:id", requireAuth, isAdmin, async (req, res) => {
-  const quizId = parseInt(req.params.id);
-
-  try {
-    await deleteQuiz(quizId);
-    res.json({ message: "Quiz slettet" });
-  } catch {
-    res.status(404).json({ message: "Quiz ikke fundet" });
-  }
 });
 
 // hent alle resultater (admin route)
@@ -200,6 +191,23 @@ app.get("/api/admin/results", requireAuth, isAdmin, async (req, res) => {
     console.error(err);
     res.status(500).json({ message: "Kunne ikke hente resultater" });
   }
+});
+
+// delete (admin route)
+app.delete("/api/admin/quizzes/:id", requireAuth, isAdmin, async (req, res) => {
+  const quizId = parseInt(req.params.id);
+
+  if (!quizId) {
+    return res.status(400).json({ message: "Ugyldigt quiz ID" });
+  }
+
+  const deleted = await deleteQuiz(quizId);
+
+  if (!deleted) {
+    return res.status(404).json({ message: "Quiz ikke fundet" });
+  }
+
+  res.json({ message: "Quiz slettet", id: quizId });
 });
 
 // hent quiz til bruger
@@ -289,52 +297,21 @@ app.get("/api/quizzes/:id/question", requireAuth, (req, res) => {
 app.post("/api/quizzes/:id/submit", requireAuth, async (req, res) => {
   const quizId = parseInt(req.params.id);
   const sessionQuiz = req.session.quizSessions?.[quizId];
-  const { answers } = req.body;
 
-  if (!answers || !Array.isArray(answers)) {
-    return res
-      .status(400)
-      .json({ message: "Answers mangler eller er ugyldig" });
+  if (!sessionQuiz) {
+    return res.status(400).json({ message: "Quiz ikke startet" });
   }
 
   const quizzes = await readQuizzes();
   const quiz = quizzes.find((q) => Number(q.id) === quizId);
 
-  if (!quiz) return res.status(404).json({ message: "Quiz ikke fundet" });
+  if (!quiz) {
+    return res.status(404).json({ message: "Quiz ikke fundet" });
+  }
 
-  let totalScore = 0;
-
-  quiz.questions.forEach((q, index) => {
-    const userAnswer = answers.find((a) => a.questionIndex === index);
-    if (!userAnswer) return;
-
-    if (q.type === "single") {
-      if (q.answer[0] === userAnswer.selected[0]) totalScore += 1;
-    } else if (q.type === "multiple") {
-      const correct = q.answer;
-      const selected = userAnswer.selected || [];
-
-      const correctSelected = selected.filter((s) =>
-        correct.includes(s),
-      ).length;
-
-      const incorrectSelected = selected.filter(
-        (s) => !correct.includes(s),
-      ).length;
-
-      let questionScore =
-        (correctSelected - incorrectSelected) / correct.length;
-
-      questionScore = Math.max(0, questionScore);
-
-      totalScore += questionScore;
-    } else if (q.type === "cloze") {
-      if (q.answer.includes(userAnswer.text?.trim())) totalScore += 1;
-    }
-  });
-
-  const startTime = req.session.quizSessions?.[quizId]?.startTime;
+  const startTime = sessionQuiz.startTime;
   const endTime = new Date().toISOString();
+
   let durationsSeconds = null;
   if (startTime) {
     durationsSeconds = (new Date(endTime) - new Date(startTime)) / 1000;
@@ -345,8 +322,8 @@ app.post("/api/quizzes/:id/submit", requireAuth, async (req, res) => {
     role: req.session.user.role,
     quizId: quiz.id,
     quizName: quiz.quizName,
-    score: totalScore,
-    total: quiz.questions.length,
+    score: sessionQuiz.score,
+    total: sessionQuiz.questions.length,
     answers: sessionQuiz.answers,
     startTime,
     endTime,
@@ -358,7 +335,8 @@ app.post("/api/quizzes/:id/submit", requireAuth, async (req, res) => {
     await addResults(result);
   }
 
-  if (req.session.quizSessions) delete req.session.quizSessions[quizId];
+  // ryd session
+  delete req.session.quizSessions[quizId];
 
   res.json({
     message: "Quiz submitted",
@@ -406,7 +384,7 @@ app.post("/api/quizzes/:id/answer", requireAuth, (req, res) => {
   sessionQuiz.score += questionScore;
 
   sessionQuiz.answers.push({
-    questionIndex: sessionQuiz.currentIndex,
+    questionId: question.id,
     isCorrect,
     score: questionScore,
   });

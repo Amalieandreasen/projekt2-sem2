@@ -1,1 +1,19 @@
-[]
+[
+  {
+    "username": "testuser",
+    "role": "user",
+    "quizId": 1,
+    "quizName": "CSS Quiz - Let",
+    "score": 7,
+    "total": 10,
+    "answers": [
+      { "questionId": 1, "isCorrect": true, "score": 1 },
+      { "questionId": 2, "isCorrect": false, "score": 0 },
+      { "questionId": 3, "isCorrect": true, "score": 1 }
+    ],
+    "startTime": "2026-04-07T12:00:00.000Z",
+    "endTime": "2026-04-07T12:05:00.000Z",
+    "durationsSeconds": 300,
+    "timestamp": "2026-04-07T12:05:00.000Z"
+  }
+]
