@@ -1,13 +1,12 @@
-<script setup>
-
-</script>
-
 <template>
-  <div>
-    <h1>hej</h1>
-  </div>
+  <router-view />
 </template>
 
-<style scoped>
+<script setup>
+</script>
 
+<style>
+body {
+  margin: 0;
+}
 </style>
