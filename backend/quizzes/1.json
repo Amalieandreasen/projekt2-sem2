@@ -1,0 +1,165 @@
+{
+  "quizName": "fdsgsdg",
+  "numberOfQuestions": 12,
+  "difficulty": "Let",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single",
+      "question": "Hvad står <strong>CSS</strong> for?",
+      "options": [
+        "Creative Style System",
+        "Cascading Style Sheets",
+        "Computer Style Syntax",
+        "Colorful Style Sheets"
+      ],
+      "answer": [
+        1
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "single",
+      "question": "Hvilken CSS-egenskab bruges til at ændre tekstfarve?",
+      "options": [
+        "text-color",
+        "font-color",
+        "color",
+        "foreground-color"
+      ],
+      "answer": [
+        2
+      ]
+    },
+    {
+      "id": "q3",
+      "type": "single",
+      "question": "Hvordan vælger man et element med id'et <strong>header</strong> i CSS?",
+      "options": [
+        ".header",
+        "#header",
+        "header",
+        "*header"
+      ],
+      "answer": [
+        1
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "single",
+      "question": "Hvordan vælger man alle elementer med klassen <strong>menu</strong>?",
+      "options": [
+        "#menu",
+        ".menu",
+        "menu",
+        "*menu"
+      ],
+      "answer": [
+        1
+      ]
+    },
+    {
+      "id": "q5",
+      "type": "single",
+      "question": "Hvilken CSS-egenskab bruges til at ændre baggrundsfarven?",
+      "options": [
+        "background-color",
+        "color",
+        "bgcolor",
+        "background-style"
+      ],
+      "answer": [
+        0
+      ]
+    },
+    {
+      "id": "q6",
+      "type": "multiple",
+      "question": "Hvilke af følgende er <strong>gyldige CSS-selektorer</strong>?",
+      "options": [
+        ".menu",
+        "#header",
+        "&main",
+        "button"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ]
+    },
+    {
+      "id": "q7",
+      "type": "multiple",
+      "question": "Hvilke egenskaber bruges til afstand i CSS?",
+      "options": [
+        "margin",
+        "padding",
+        "border-spacing",
+        "gap"
+      ],
+      "answer": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "q8",
+      "type": "multiple",
+      "question": "Hvilke udsagn om CSS er korrekte?",
+      "options": [
+        "CSS kan ændre farver",
+        "CSS kan bruges til layout",
+        "CSS kan definere skrifttyper",
+        "CSS erstatter HTML"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "q9",
+      "type": "multiple",
+      "question": "Hvilke værdier kan bruges sammen med <strong>position</strong> i CSS?",
+      "options": [
+        "relative",
+        "absolute",
+        "fixed",
+        "middle"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "q10",
+      "type": "cloze",
+      "question": "Hvilken CSS-egenskab bruges til at gøre tekst <span style=\"font-style: italic;\">kursiv</span>?",
+      "answer": [
+        "font-style"
+      ]
+    },
+    {
+      "id": "q11",
+      "type": "cloze",
+      "question": "Hvilken værdi bruges i <strong>display</strong> for at aktivere flexbox?",
+      "answer": [
+        "flex"
+      ]
+    },
+    {
+      "id": "q12",
+      "type": "cloze",
+      "question": "Hvilken CSS-egenskab bruges til at ændre skriftstørrelsen?",
+      "answer": [
+        "font-size"
+      ]
+    }
+  ],
+  "id": 1
+}
