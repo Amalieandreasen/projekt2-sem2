@@ -13,6 +13,10 @@ const routes = [
   {
     path: '/bruger',
     component: () => import('../views/User.vue')
+  },
+  {
+    path: '/quiz',
+    component: () => import('../views/TestQuizview.vue')
   }
 ]
 

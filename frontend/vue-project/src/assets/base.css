@@ -138,3 +138,11 @@
     'GRAD' 0,
     'opsz' 24
 }
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+input[type="radio" i] {
+  margin: 0;
+}

@@ -1,9 +1,11 @@
 {
+    "quizId": "css-quiz-hard",
     "quizName": "CSS Quiz - Svær",
     "numberOfQuestions": 12,
     "difficulty": "Svær",
     "questions": [
         {
+            "id": "css-hard-q1",
             "type": "single",
             "question": "Hvad gør <strong>box-sizing: border-box</strong>?",
             "options": [
@@ -17,6 +19,7 @@
             ]
         },
         {
+            "id": "css-hard-q2",
             "type": "single",
             "question": "Hvad er standardværdien for <strong>position</strong> i CSS?",
             "options": [
@@ -30,6 +33,7 @@
             ]
         },
         {
+            "id": "css-hard-q3",
             "type": "single",
             "question": "Hvad gør <strong>z-index</strong>?",
             "options": [
@@ -43,6 +47,7 @@
             ]
         },
         {
+            "id": "css-hard-q4",
             "type": "multiple",
             "question": "Hvilke enheder er <strong>relative enheder</strong> i CSS?",
             "options": [
@@ -58,6 +63,7 @@
             ]
         },
         {
+            "id": "css-hard-q5",
             "type": "multiple",
             "question": "Hvilke egenskaber bruges i <strong>flexbox</strong>?",
             "options": [
@@ -73,6 +79,7 @@
             ]
         },
         {
+            "id": "css-hard-q6",
             "type": "multiple",
             "question": "Hvilke værdier kan <strong>position</strong> have?",
             "options": [
@@ -89,6 +96,7 @@
             ]
         },
         {
+            "id": "css-hard-q7",
             "type": "multiple",
             "question": "Hvilke selectors er gyldige i CSS?",
             "options": [
@@ -104,6 +112,7 @@
             ]
         },
         {
+            "id": "css-hard-q8",
             "type": "cloze",
             "question": "Hvilken CSS-egenskab bruges til at lave et grid-layout?",
             "answer": [
@@ -113,6 +122,7 @@
             ]
         },
         {
+            "id": "css-hard-q9",
             "type": "cloze",
             "question": "Hvilken værdi bruges i <strong>overflow</strong> for at skjule indhold?",
             "answer": [
@@ -120,6 +130,7 @@
             ]
         },
         {
+            "id": "css-hard-q10",
             "type": "cloze",
             "question": "Hvad hedder pseudo-klassen der aktiveres når man holder musen over et element?",
             "answer": [
@@ -128,6 +139,7 @@
             ]
         },
         {
+            "id": "css-hard-q11",
             "type": "single",
             "question": "Hvad gør <strong>display: none</strong>?",
             "options": [
@@ -141,6 +153,7 @@
             ]
         },
         {
+            "id": "css-hard-q12",
             "type": "single",
             "question": "Hvad gør <strong>overflow: auto</strong>?",
             "options": [
