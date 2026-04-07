@@ -1,12 +1,9 @@
+<script setup>
+import AdminPanel from './components/AdminPanel.vue';
+</script>
+
 <template>
   <router-view />
 </template>
 
-<script setup>
-</script>
-
-<style>
-body {
-  margin: 0;
-}
-</style>
+<style scoped></style>
