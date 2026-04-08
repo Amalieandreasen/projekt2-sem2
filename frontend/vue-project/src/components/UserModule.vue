@@ -1,16 +1,37 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import CreateUserModal from './CreateUserModal.vue'
 
 const showCreateUserModal = ref(false)
-const users = [
-    { id: 1, username: 'anna_hansen', email: 'anna@eksempel.dk', role: 'Bruger', joined: '2026-03-10', quizzesTaken: 12 },
-    { id: 2, username: 'peter_nielsen', email: 'peter@eksempel.dk', role: 'Bruger', joined: '2026-03-12', quizzesTaken: 8 },
-    { id: 3, username: 'marie_jensen', email: 'marie@eksempel.dk', role: 'Bruger', joined: '2026-03-15', quizzesTaken: 15 },
-    { id: 4, username: 'lars_andersen', email: 'lars@eksempel.dk', role: 'Bruger', joined: '2026-03-18', quizzesTaken: 6 },
-    { id: 5, username: 'sofie_petersen', email: 'sofie@eksempel.dk', role: 'Bruger', joined: '2026-03-20', quizzesTaken: 10 },
-    { id: 6, username: 'admin_hansen', email: 'admin@eksempel.dk', role: 'Admin', joined: '2026-03-01', quizzesTaken: 25 }
-]
+const users = ref([])
+const loading = ref(false)
+const error = ref('')
+
+async function fetchUsers() {
+    try {
+        const res = await fetch('http://localhost:3000/api/admin/users', {
+            credentials: 'include'
+        })
+
+        const text = await res.text()
+        console.log('RAW RESPONSE:', text)
+
+        const data = JSON.parse(text)
+
+        if (!res.ok) {
+            throw new Error(data.message || 'Kunne ikke hente brugere')
+        }
+
+        users.value = data
+    } catch (err) {
+        console.error(err)
+        error.value = err.message
+    }
+}
+
+onMounted(() => {
+    fetchUsers()
+})
 </script>
 
 <template>
@@ -26,28 +47,25 @@ const users = [
             </button>
         </div>
 
-        <table class="data-table">
+        <p v-if="loading">Henter brugere...</p>
+        <p v-else-if="error" class="error">{{ error }}</p>
+
+        <table v-else class="data-table">
             <thead>
                 <tr>
                     <th>Brugernavn</th>
-                    <th>Email</th>
                     <th>Rolle</th>
-                    <th>Tilmeldt</th>
-                    <th>Quizzer Taget</th>
                     <th>Handlinger</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="user in users" :key="user.id">
+                <tr v-for="user in users" :key="user.username">
                     <td>{{ user.username }}</td>
-                    <td>{{ user.email }}</td>
                     <td>
-                        <span class="badge" :class="user.role === 'Admin' ? 'badge-purple' : 'badge-gray'">
-                            {{ user.role }}
+                        <span class="badge" :class="user.role === 'admin' ? 'badge-purple' : 'badge-gray'">
+                            {{ user.role === 'admin' ? 'Admin' : 'Bruger' }}
                         </span>
                     </td>
-                    <td>{{ user.joined }}</td>
-                    <td>{{ user.quizzesTaken }}</td>
                     <td class="actions">
                         <button class="text-btn">Rediger</button>
                         <button class="icon-btn delete">Slet</button>
@@ -55,6 +73,7 @@ const users = [
                 </tr>
             </tbody>
         </table>
+
         <CreateUserModal :isOpen="showCreateUserModal" @close="showCreateUserModal = false" />
     </section>
 </template>
@@ -141,5 +160,10 @@ const users = [
 
 .delete {
     color: #dc2626;
+}
+
+.error {
+    color: #dc2626;
+    font-weight: 500;
 }
 </style>
