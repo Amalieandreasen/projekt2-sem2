@@ -1,37 +1,37 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import CreateUserModal from './CreateUserModal.vue'
+import { ref, onMounted } from "vue";
+import CreateUserModal from "./CreateUserModal.vue";
 
-const showCreateUserModal = ref(false)
-const users = ref([])
-const loading = ref(false)
-const error = ref('')
+const showCreateUserModal = ref(false);
+const users = ref([]);
+const loading = ref(false);
+const error = ref("");
 
 async function fetchUsers() {
-    try {
-        const res = await fetch('http://localhost:3000/api/admin/users', {
-            credentials: 'include'
-        })
+  try {
+    const res = await fetch("http://localhost:3000/api/admin/users", {
+      credentials: "include",
+    });
 
-        const text = await res.text()
-        console.log('RAW RESPONSE:', text)
+    const text = await res.text();
+    console.log("RAW RESPONSE:", text);
 
-        const data = JSON.parse(text)
+    const data = JSON.parse(text);
 
-        if (!res.ok) {
-            throw new Error(data.message || 'Kunne ikke hente brugere')
-        }
-
-        users.value = data
-    } catch (err) {
-        console.error(err)
-        error.value = err.message
+    if (!res.ok) {
+      throw new Error(data.message || "Kunne ikke hente brugere");
     }
+
+    users.value = data;
+  } catch (err) {
+    console.error(err);
+    error.value = err.message;
+  }
 }
 
 onMounted(() => {
-    fetchUsers()
-})
+  fetchUsers();
+});
 </script>
 
 <template>
@@ -77,37 +77,43 @@ onMounted(() => {
             <button class="icon-btn delete">
               <span class="material-symbols-rounded"> delete </span>
             </button>
-        </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p v-if="loading">Henter brugere...</p>
+    <p v-else-if="error" class="error">{{ error }}</p>
 
-        <p v-if="loading">Henter brugere...</p>
-        <p v-else-if="error" class="error">{{ error }}</p>
+    <table v-else class="data-table">
+      <thead>
+        <tr>
+          <th>Brugernavn</th>
+          <th>Rolle</th>
+          <th>Handlinger</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="user in users" :key="user.username">
+          <td>{{ user.username }}</td>
+          <td>
+            <span
+              class="badge"
+              :class="user.role === 'admin' ? 'badge-purple' : 'badge-gray'">
+              {{ user.role === "admin" ? "Admin" : "Bruger" }}
+            </span>
+          </td>
+          <td class="actions">
+            <button class="text-btn">Rediger</button>
+            <button class="icon-btn delete">Slet</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-        <table v-else class="data-table">
-            <thead>
-                <tr>
-                    <th>Brugernavn</th>
-                    <th>Rolle</th>
-                    <th>Handlinger</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="user in users" :key="user.username">
-                    <td>{{ user.username }}</td>
-                    <td>
-                        <span class="badge" :class="user.role === 'admin' ? 'badge-purple' : 'badge-gray'">
-                            {{ user.role === 'admin' ? 'Admin' : 'Bruger' }}
-                        </span>
-                    </td>
-                    <td class="actions">
-                        <button class="text-btn">Rediger</button>
-                        <button class="icon-btn delete">Slet</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <CreateUserModal :isOpen="showCreateUserModal" @close="showCreateUserModal = false" />
-    </section>
+    <CreateUserModal
+      :isOpen="showCreateUserModal"
+      @close="showCreateUserModal = false" />
+  </section>
 </template>
 
 <style scoped>
@@ -197,7 +203,7 @@ onMounted(() => {
 }
 
 .error {
-    color: #dc2626;
-    font-weight: 500;
+  color: #dc2626;
+  font-weight: 500;
 }
 </style>
