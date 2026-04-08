@@ -1,10 +1,11 @@
 <script setup>
-import AdminPanel from './components/AdminPanel.vue';
+import AdminPanel from "./components/AdminPanel.vue";
+import UserPanel from "./components/UserPanel.vue";
 </script>
 
 <template>
-  
-  <router-view />
+  <!-- <router-view /> -->
+  <UserPanel />
 </template>
 
 <style scoped></style>
