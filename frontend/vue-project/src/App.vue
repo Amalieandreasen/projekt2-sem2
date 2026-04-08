@@ -5,7 +5,7 @@ import UserPanel from "./components/UserPanel.vue";
 
 <template>
   <!-- <router-view /> -->
-  <AdminPanel />
+  <UserPanel />
 </template>
 
 <style scoped></style>

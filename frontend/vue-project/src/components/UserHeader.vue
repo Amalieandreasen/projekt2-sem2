@@ -59,9 +59,12 @@ p {
 
 .logout-btn {
   border: 1px solid #ddd;
-  background: white;
+  background: black;
+  color: white;
   padding: 8px 14px;
   border-radius: 8px;
   cursor: pointer;
+  align-items: center;
+  display: flex;
 }
 </style>

@@ -35,7 +35,9 @@ const quizzes = [
     </div>
     <div class="card-right">
       <span class="badge badge-green">Bedste: {{ quiz.best }} %</span>
-      <button>Start quiz</button>
+      <button class="action-btn">
+        <span class="material-symbols-rounded"> play_circle </span> Start quiz
+      </button>
     </div>
   </section>
 </template>
@@ -68,7 +70,17 @@ const quizzes = [
   font-size: 12px;
   font-weight: 600;
 }
-
+.action-btn {
+  border: none;
+  background: #0b0b23;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  align-items: center;
+  display: flex;
+}
 .badge-green {
   background: #dcfce7;
   color: #166534;

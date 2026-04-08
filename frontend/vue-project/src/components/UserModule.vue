@@ -142,6 +142,8 @@ const users = [
   border-radius: 10px;
   cursor: pointer;
   font-weight: 600;
+  align-items: center;
+  display: flex;
 }
 
 .data-table {
