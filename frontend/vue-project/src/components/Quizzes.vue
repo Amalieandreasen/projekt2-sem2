@@ -1,14 +1,76 @@
 <script setup>
-import { ref } from 'vue'
-import UploadQuizModal from './UploadQuizModal.vue';
+import { ref, onMounted } from 'vue'
+import UploadQuizModal from './UploadQuizModal.vue'
+
 const showModal = ref(false)
-const quizzes = [
-    { id: 1, name: 'JavaScript Grundlæggende', questions: 20, created: '2026-03-15', status: 'Aktiv' },
-    { id: 2, name: 'React Hooks', questions: 15, created: '2026-03-20', status: 'Aktiv' },
-    { id: 3, name: 'CSS Flexbox & Grid', questions: 18, created: '2026-03-25', status: 'Aktiv' },
-    { id: 4, name: 'TypeScript Typer', questions: 12, created: '2026-04-01', status: 'Inaktiv' },
-    { id: 5, name: 'Node.js & Express', questions: 22, created: '2026-04-05', status: 'Aktiv' }
-]
+const quizzes = ref([])
+const loading = ref(false)
+const error = ref('')
+
+async function fetchQuizzes() {
+    try {
+        loading.value = true
+        error.value = ''
+
+        const res = await fetch('http://localhost:3000/api/admin/quizzes', {
+            credentials: 'include'
+        })
+
+        const data = await res.json()
+
+        if (!res.ok) {
+            throw new Error(data.message || 'Kunne ikke hente quizzer')
+        }
+
+        quizzes.value = data
+    } catch (err) {
+        console.error(err)
+        error.value = err.message
+    } finally {
+        loading.value = false
+    }
+}
+
+function getQuestionCount(quiz) {
+    return Array.isArray(quiz.questions) ? quiz.questions.length : 0
+}
+
+function handleQuizCreated(newQuiz) {
+    quizzes.value.unshift(newQuiz)
+}
+
+function formatDate(date) {
+    if (!date) return '—'
+    return new Date(date).toLocaleString('da-DK')
+}
+
+async function deleteQuiz(quizId) {
+    const confirmed = window.confirm('Er du sikker på, at du vil slette denne quiz?')
+    if (!confirmed) return
+
+    try {
+        const res = await fetch(`http://localhost:3000/api/admin/quizzes/${quizId}`, {
+            method: 'DELETE',
+            credentials: 'include'
+        })
+
+        const data = await res.json()
+
+        if (!res.ok) {
+            const data = await res.json()
+            throw new Error(data.message || 'Kunne ikke slette quizzen')
+        }
+
+        quizzes.value = quizzes.value.filter(q => q.id !== quizId)
+    } catch (err) {
+        console.error(err)
+        alert('Fejl: ' + err.message)
+    }
+}
+
+onMounted(() => {
+    fetchQuizzes()
+})
 </script>
 
 <template>
@@ -18,42 +80,40 @@ const quizzes = [
                 <h2>Quiz Filer</h2>
                 <p>Upload, administrer og slet quiz filer</p>
             </div>
-            <div>
-                <button class="action-btn" @click="showModal = true">
-                    Upload Quiz
-                </button>
-            </div>
+
+            <button class="action-btn" @click="showModal = true">
+                Upload Quiz
+            </button>
         </div>
 
-        <UploadQuizModal :isOpen="showModal" @close="showModal = false" />
+        <p v-if="loading">Henter quizzer...</p>
+        <p v-else-if="error" class="error">{{ error }}</p>
 
-        <table class="data-table">
+        <table v-else class="data-table">
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Navn</th>
-                    <th>Spørgsmål</th>
+                    <th>Antal spørgsmål</th>
                     <th>Oprettet</th>
-                    <th>Status</th>
                     <th>Handlinger</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="quiz in quizzes" :key="quiz.id">
-                    <td>{{ quiz.name }}</td>
-                    <td>{{ quiz.questions }} spørgsmål</td>
-                    <td>{{ quiz.created }}</td>
-                    <td>
-                        <span class="badge" :class="quiz.status === 'Aktiv' ? 'badge-green' : 'badge-gray'">
-                            {{ quiz.status }}
-                        </span>
-                    </td>
+                    <td>{{ quiz.id }}</td>
+                    <td>{{ quiz.quizName }}</td>
+                    <td>{{ getQuestionCount(quiz) }}</td>
+                    <td>{{ quiz.createdAt }}</td>
                     <td class="actions">
-                        <button class="text-btn">Se</button>
-                        <button class="icon-btn delete">Slet</button>
+                        <button class="text-btn">Rediger</button>
+                        <button class="icon-btn delete" @click="deleteQuiz(quiz.id)">Slet</button>
                     </td>
                 </tr>
             </tbody>
         </table>
+
+        <UploadQuizModal :isOpen="showModal" @close="showModal = false" @created="handleQuizCreated" />
     </section>
 </template>
 
@@ -106,24 +166,6 @@ const quizzes = [
     font-size: 14px;
 }
 
-.badge {
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 600;
-}
-
-.badge-green {
-    background: #dcfce7;
-    color: #166534;
-}
-
-.badge-gray {
-    background: #f1f5f9;
-    color: #475569;
-}
-
 .actions {
     display: flex;
     gap: 12px;
@@ -140,5 +182,10 @@ const quizzes = [
 
 .delete {
     color: #dc2626;
+}
+
+.error {
+    color: #dc2626;
+    font-weight: 500;
 }
 </style>
