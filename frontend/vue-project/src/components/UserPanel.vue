@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
-import PanelTabs from "./PanelTabs.vue";
-import StatsComponent from "./StatsComponent.vue";
+import PanelTabs from "./UserPanelTabs.vue";
+import StatsComponent from "./UserStatsComponent.vue";
 import UserQuizzes from "./UserQuizzes.vue";
 import UserResults from "./UserResults.vue";
 
