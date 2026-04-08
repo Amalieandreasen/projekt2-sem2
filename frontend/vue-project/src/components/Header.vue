@@ -3,7 +3,9 @@
 <template>
   <header class="header">
     <div class="left">
-      <div class="logo">Ikon</div>
+      <div class="logo">
+        <span class="material-symbols-rounded"> school </span>
+      </div>
       <div>
         <h1>QuizPlatform Admin</h1>
         <p>Underviser panel</p>
