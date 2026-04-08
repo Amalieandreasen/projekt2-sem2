@@ -7,8 +7,8 @@
         <span class="material-symbols-rounded"> school </span>
       </div>
       <div>
-        <h1>QuizPlatform Admin</h1>
-        <p>Underviser panel</p>
+        <h1>QuizPlatform</h1>
+        <p>Velkommen tilbage navn!</p>
       </div>
     </div>
 

@@ -17,14 +17,14 @@ const activeTab = ref('quizzes')
         <StatsContainer />
         <PanelTabs v-model="activeTab" />
 
-        <Quizzes v-if="activeTab === 'quizzes'" />
-        <UserActivity v-else-if="activeTab === 'activity'" />
-        <UserModule v-else-if="activeTab === 'users'" />
-    </section>
+    <Quizzes v-if="activeTab === 'quizzes'" />
+    <UserActivity v-else-if="activeTab === 'activity'" />
+    <UserModule v-else-if="activeTab === 'users'" />
+  </section>
 </template>
 
 <style scoped>
 .admin-panel {
-    padding: 20px;
+  padding: 20px;
 }
 </style>

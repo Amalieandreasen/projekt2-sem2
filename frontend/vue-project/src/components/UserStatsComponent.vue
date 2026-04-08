@@ -48,12 +48,10 @@ defineProps({
 
 h2 {
   margin: 0;
-  font-size: 28px;
 }
 
 p {
   margin: 6px 0 0;
-  font-size: 13px;
   color: #888;
 }
 </style>

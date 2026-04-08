@@ -119,69 +119,71 @@ onMounted(() => {
 
 <style scoped>
 .module-card {
-    margin-top: 20px;
-    padding: 24px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 16px;
+  margin-top: 20px;
+  padding: 24px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 16px;
 }
 
 .module-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
 }
 
 .module-header h2 {
-    margin: 0;
-    font-size: 20px;
+  margin: 0;
+  font-size: 20px;
 }
 
 .module-header p {
-    margin: 4px 0 0;
-    color: #666;
+  margin: 4px 0 0;
+  color: #666;
 }
 
 .action-btn {
-    border: none;
-    background: #0b0b23;
-    color: white;
-    padding: 10px 16px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 600;
+  border: none;
+  background: #0b0b23;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  align-items: center;
+  display: flex;
 }
 
 .data-table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .data-table th,
 .data-table td {
-    text-align: left;
-    padding: 14px 10px;
-    border-bottom: 1px solid #eee;
-    font-size: 14px;
+  text-align: left;
+  padding: 14px 10px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
 }
 
 .actions {
-    display: flex;
-    gap: 12px;
-    align-items: center;
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
 
 .text-btn,
 .icon-btn {
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-size: 14px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
 }
 
 .delete {
-    color: #dc2626;
+  color: #dc2626;
 }
 
 .error {
