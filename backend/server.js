@@ -275,6 +275,7 @@ app.post("/api/quizzes/:id/start", requireAuth, async (req, res) => {
   });
 });
 
+// hent næste spørgsmål
 app.get("/api/quizzes/:id/question", requireAuth, (req, res) => {
   const quizId = parseInt(req.params.id);
   const sessionQuiz = req.session.quizSessions?.[quizId];
@@ -293,7 +294,7 @@ app.get("/api/quizzes/:id/question", requireAuth, (req, res) => {
   });
 });
 
-// submitte svar til en quiz
+// submitte alle svar (sidste step)
 app.post("/api/quizzes/:id/submit", requireAuth, async (req, res) => {
   const quizId = parseInt(req.params.id);
   const sessionQuiz = req.session.quizSessions?.[quizId];
@@ -335,7 +336,6 @@ app.post("/api/quizzes/:id/submit", requireAuth, async (req, res) => {
     await addResults(result);
   }
 
-  // ryd session
   delete req.session.quizSessions[quizId];
 
   res.json({
@@ -345,7 +345,7 @@ app.post("/api/quizzes/:id/submit", requireAuth, async (req, res) => {
   });
 });
 
-//
+//sende svar til enkelt spørgsmål
 app.post("/api/quizzes/:id/answer", requireAuth, (req, res) => {
   const quizId = parseInt(req.params.id);
   const { answer } = req.body;
@@ -395,6 +395,7 @@ app.post("/api/quizzes/:id/answer", requireAuth, (req, res) => {
   });
 });
 
+// gå til næste spørgsmål
 app.post("/api/quizzes/:id/next", requireAuth, (req, res) => {
   const quizId = parseInt(req.params.id);
   const sessionQuiz = req.session.quizSessions?.[quizId];
