@@ -1,0 +1,73 @@
+{
+  "quizName": "Javascriåt TEST",
+  "questions": [
+    {
+      "id": 1,
+      "type": "single",
+      "question": "Hvad bruges JavaScript primært til i webudvikling?",
+      "options": [
+        "At style hjemmesider",
+        "At gøre hjemmesider interaktive",
+        "At gemme data i databaser",
+        "At oprette servere"
+      ],
+      "answer": [
+        "At gøre hjemmesider interaktive"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "single",
+      "question": "Hvilket nøgleord bruges til at erklære en variabel i JavaScript?",
+      "options": [
+        "var",
+        "style",
+        "html",
+        "css"
+      ],
+      "answer": [
+        "var"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "multiple",
+      "question": "Hvilke af disse er gyldige JavaScript-datatyper?",
+      "options": [
+        "string",
+        "number",
+        "banana",
+        "boolean"
+      ],
+      "answer": [
+        "string",
+        "number",
+        "boolean"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "single",
+      "question": "Hvad returnerer `typeof true` i JavaScript?",
+      "options": [
+        "true",
+        "boolean",
+        "string",
+        "undefined"
+      ],
+      "answer": [
+        "boolean"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "cloze",
+      "question": "Metoden der bruges til at skrive noget i konsollen hedder ____.",
+      "options": [],
+      "answer": [
+        "console.log"
+      ]
+    }
+  ],
+  "id": 3
+}
