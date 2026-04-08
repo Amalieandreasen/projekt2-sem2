@@ -4,8 +4,7 @@ import UserPanel from "./components/UserPanel.vue";
 </script>
 
 <template>
-  <!-- <router-view /> -->
-  <UserPanel />
+  <router-view />
 </template>
 
 <style scoped></style>
