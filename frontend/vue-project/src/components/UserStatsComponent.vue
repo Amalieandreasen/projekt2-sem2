@@ -12,8 +12,8 @@ defineProps({
     <div v-for="card in stats" :key="card.label" class="card">
       <div class="card-header">
         <span>{{ card.label }}</span>
-        <span class="material-icons icon">
-          {{ stat.icon }}
+        <span class="material-symbols-rounded">
+          {{ card.icon }}
         </span>
       </div>
 
