@@ -1,7 +1,7 @@
 import argon2 from "argon2";
 import dotenv from "dotenv";
 dotenv.config();
-const PEPPER = process.env.PEPPER;
+const PEPPER = "supersecretpepper123";
 
 export const hashPassword = async (password) => {
   const toHash = password + PEPPER;

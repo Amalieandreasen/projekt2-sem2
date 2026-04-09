@@ -28,5 +28,10 @@
     "username": "Amalie",
     "password": "$argon2id$v=19$m=65536,t=3,p=4$hx4aElzdFmEAlRAhcanY+w$80Bi8rXoyux4mDMholg8T8fiHsS632p3g3lNYvatYAw",
     "role": "user"
+  },
+  {
+    "username": "Torben",
+    "password": "$argon2id$v=19$m=65536,t=3,p=4$gadZlyNtYL+Go0YIwg1EGQ$c+R3WsNz3xVJSXXaMbkBAj8tMxRg/HHnMw83osho934",
+    "role": "user"
   }
 ]

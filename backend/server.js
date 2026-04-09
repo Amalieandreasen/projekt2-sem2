@@ -49,7 +49,7 @@ app.use(
 // session middleware
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "dev-secret",
+    secret: "JNDI&/%¤&nklfnnbkmfg0o235438yhgnd9846hpngms",
     resave: false,
     saveUninitialized: false,
     cookie: {
