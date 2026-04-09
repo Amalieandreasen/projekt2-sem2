@@ -5,27 +5,44 @@ const quizzes = ref([]);
 
 onMounted(async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/quizzes", {
-      method: "GET",
-      credentials: "include",
+    const [quizRes, resultRes] = await Promise.all([
+      fetch("http://localhost:3000/api/quizzes", {
+        method: "GET",
+        credentials: "include",
+      }),
+      fetch("http://localhost:3000/api/results", {
+        method: "GET",
+        credentials: "include",
+      }),
+    ]);
+
+    if (!quizRes.ok || !resultRes.ok) throw new Error("Kunne ikke hente data");
+
+    const quizData = await quizRes.json();
+    const resultsData = await resultRes.json();
+
+    quizzes.value = quizData.map((q) => {
+      const userResults = resultsData.filter((r) => r.quizId === q.quizId);
+      const best = userResults.length
+        ? Math.max(
+            ...userResults.map((r) => Math.round((r.score / r.total) * 100)),
+          )
+        : 0;
+      const trys = userResults.length;
+
+      return {
+        id: q.quizId,
+        name: q.quizName,
+        description: q.description,
+        questions: q.questions,
+        created: q.created,
+        status: q.status,
+        time: q.time,
+        diff: q.diff,
+        best,
+        trys,
+      };
     });
-
-    if (!res.ok) throw new Error("Kunne ikke hente quizzer");
-
-    const quizData = await res.json();
-
-    quizzes.value = quizData.map((q) => ({
-      id: q.quizId,
-      name: q.quizName,
-      description: q.description || "Dynamisk hentet quiz",
-      questions: q.questions,
-      created: q.created,
-      status: q.status,
-      time: q.time,
-      diff: q.diff,
-      best: q.best,
-      trys: q.trys,
-    }));
   } catch (err) {
     console.error(err);
   }
@@ -36,7 +53,7 @@ onMounted(async () => {
   <section class="module-card" v-for="quiz in quizzes" :key="quiz.id">
     <div class="card-left">
       <h2>{{ quiz.name }}</h2>
-      <p>{{ quiz.desciption }}</p>
+      <p>{{ quiz.description }}</p>
 
       <div class="quiz-info">
         <span class="badge badge-green">

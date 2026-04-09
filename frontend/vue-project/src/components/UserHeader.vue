@@ -1,7 +1,9 @@
 <script setup>
 import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
 
 const username = ref("");
+const router = useRouter();
 
 onMounted(async () => {
   try {
@@ -17,6 +19,21 @@ onMounted(async () => {
     console.error(err);
   }
 });
+
+const logout = async () => {
+  try {
+    const res = await fetch("http://localhost:3000/api/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+
+    if (!res.ok) throw new Error("Kunne ikke logge ud");
+
+    router.push("/");
+  } catch (err) {
+    console.error(err);
+  }
+};
 </script>
 
 <template>
@@ -31,7 +48,7 @@ onMounted(async () => {
       </div>
     </div>
 
-    <button class="logout-btn">
+    <button class="logout-btn" v-on:click="logout">
       <span class="material-symbols-rounded"> logout </span>Log ud
     </button>
   </header>
