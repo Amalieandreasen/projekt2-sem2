@@ -1,55 +1,86 @@
 <script setup>
-import { ref } from "vue"
-import QuizModal from "@/components/quiz/QuizModal.vue"
+import { ref, onMounted } from "vue";
+import QuizModal from "@/components/quiz/QuizModal.vue";
 
-const API_URL = "http://localhost:3000"
+const API_URL = "http://localhost:3000";
 
-const quizzes = [
-  {
-    id: 1,
-    name: "JavaScript Grundlæggende",
-    desciption:
-      "Test din viden om JavaScript fundamentals, variabler, loops og funktioner",
-    questions: 20,
-    created: "2026-03-15",
-    status: "Aktiv",
-    time: 15,
-    diff: "Begynder",
-    best: 95,
-    trys: 3,
-  },
-]
+// Quizzes data
+const quizzes = ref([]);
 
-const showQuizModal = ref(false)
-const quizSession = ref(null)
-const loading = ref(false)
-const error = ref("")
+// Modal & session state
+const showQuizModal = ref(false);
+const quizSession = ref(null);
+const loading = ref(false);
+const error = ref("");
 
+// Hent quizzes og resultater fra API ved mount
+onMounted(async () => {
+  try {
+    const [quizRes, resultRes] = await Promise.all([
+      fetch(`${API_URL}/api/quizzes`, {
+        method: "GET",
+        credentials: "include",
+      }),
+      fetch(`${API_URL}/api/results`, {
+        method: "GET",
+        credentials: "include",
+      }),
+    ]);
+
+    if (!quizRes.ok || !resultRes.ok) throw new Error("Kunne ikke hente data");
+
+    const quizData = await quizRes.json();
+    const resultsData = await resultRes.json();
+
+    quizzes.value = quizData.map((q) => {
+      const userResults = resultsData.filter((r) => r.quizId === q.quizId);
+      const best = userResults.length
+        ? Math.max(
+            ...userResults.map((r) => Math.round((r.score / r.total) * 100)),
+          )
+        : 0;
+      const trys = userResults.length;
+
+      return {
+        id: q.quizId,
+        name: q.quizName,
+        description: q.description,
+        questions: q.questions,
+        created: q.created,
+        status: q.status,
+        time: q.time,
+        diff: q.diff,
+        best,
+        trys,
+      };
+    });
+  } catch (err) {
+    error.value = err.message;
+    console.error(err);
+  }
+});
+
+// Start quiz funktion
 async function startQuiz(quiz) {
   try {
-    loading.value = true
-    error.value = ""
+    loading.value = true;
+    error.value = "";
 
     const startRes = await fetch(`${API_URL}/api/quizzes/${quiz.id}/start`, {
       method: "POST",
       credentials: "include",
-    })
+    });
 
-    const startData = await startRes.json()
-
-    if (!startRes.ok) {
-      throw new Error(startData.message || "Kunne ikke starte quiz")
-    }
+    const startData = await startRes.json();
+    if (!startRes.ok)
+      throw new Error(startData.message || "Kunne ikke starte quiz");
 
     const res = await fetch(`${API_URL}/api/quizzes/${quiz.id}/question`, {
       credentials: "include",
-    })
+    });
 
-    const data = await res.json()
-
-    if (!res.ok) {
-      throw new Error(data.message || "Kunne ikke hente spørgsmål")
-    }
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || "Kunne ikke hente spørgsmål");
 
     quizSession.value = {
       quiz: {
@@ -61,33 +92,27 @@ async function startQuiz(quiz) {
       question: data.question,
       index: data.index,
       total: data.total,
-    }
+    };
 
-    showQuizModal.value = true
+    showQuizModal.value = true;
   } catch (err) {
-    error.value = err.message
-    console.error(err)
+    error.value = err.message;
+    console.error(err);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
 }
 </script>
 
 <template>
   <div>
-    <section
-      class="module-card"
-      v-for="quiz in quizzes"
-      :key="quiz.id"
-    >
+    <section class="module-card" v-for="quiz in quizzes" :key="quiz.id">
       <div class="card-left">
         <h2>{{ quiz.name }}</h2>
-        <p>{{ quiz.desciption }}</p>
+        <p>{{ quiz.description }}</p>
 
         <div class="quiz-info">
-          <span class="badge badge-green">
-            {{ quiz.diff }}
-          </span>
+          <span class="badge badge-green">{{ quiz.diff }}</span>
           <p>{{ quiz.time }} min</p>
           <p>{{ quiz.questions }} spørgsmål</p>
           <p>{{ quiz.trys }} forsøg</p>
@@ -95,15 +120,8 @@ async function startQuiz(quiz) {
       </div>
 
       <div class="card-right">
-        <span class="badge badge-green">
-          Bedste: {{ quiz.best }} %
-        </span>
-
-        <button
-          class="action-btn"
-          :disabled="loading"
-          @click="startQuiz(quiz)"
-        >
+        <span class="badge badge-green">Bedste: {{ quiz.best }} %</span>
+        <button class="action-btn" :disabled="loading" @click="startQuiz(quiz)">
           <span class="material-symbols-rounded">play_circle</span>
           {{ loading ? "Starter..." : "Start quiz" }}
         </button>
@@ -115,8 +133,7 @@ async function startQuiz(quiz) {
     <QuizModal
       v-if="showQuizModal && quizSession"
       :session="quizSession"
-      @close="showQuizModal = false"
-    />
+      @close="showQuizModal = false" />
   </div>
 </template>
 

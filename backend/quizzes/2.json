@@ -2,6 +2,8 @@
   "id": 2,
   "quizName": "Advanced CSS",
   "description": "Avanceret CSS for webudviklere",
+  "diff": "Svær",
+  "time": 15,
   "questions": [
     {
       "id": 1,

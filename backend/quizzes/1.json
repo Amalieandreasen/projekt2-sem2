@@ -2,6 +2,8 @@
   "id": 1,
   "quizName": "CSS Basics",
   "description": "Grundlæggende CSS spørgsmål",
+  "diff": "Let",
+  "time": 10,
   "questions": [
     {
       "id": 1,

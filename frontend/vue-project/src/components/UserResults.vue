@@ -1,33 +1,44 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
-const quizzes = [
-  {
-    id: 1,
-    name: "JavaScript Grundlæggende",
-    questions: 20,
-    created: "2026-03-15",
-    status: "Aktiv",
-  },
-];
+const results = ref([]);
+
+onMounted(async () => {
+  try {
+    const res = await fetch("http://localhost:3000/api/results", {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (!res.ok) throw new Error("Kunne ikke hente resultater");
+
+    const data = await res.json();
+    results.value = data;
+  } catch (err) {
+    console.error(err);
+  }
+});
 </script>
 
 <template>
   <section class="results-module">
     <h3>Mine Tidligere Resultater</h3>
     <p>Se alle dine quiz forsøg og resultater</p>
-    <div class="module-card" v-for="quiz in quizzes" :key="quiz.id">
-      <h3>{{ quiz.name }}</h3>
+    <div class="module-card" v-for="quiz in results" :key="quiz.quizId">
+      <h3>{{ quiz.quizName }}</h3>
       <div class="results-info-wrapper">
         <p class="results-info">
           <span class="material-symbols-rounded"> calendar_today </span>
-          {{ quiz.created }}
+          {{ quiz.timestamp.slice(0, 10) }}
         </p>
         <p class="results-info">
           <span class="material-symbols-rounded"> schedule </span>
-          20 min
+          {{
+            quiz.durationsSeconds ? Math.round(quiz.durationsSeconds / 60) : 0
+          }}
+          min
         </p>
-        <p class="results-info">17/20 Korrekte</p>
+        <p class="results-info">{{ quiz.score }}/{{ quiz.total }} Korrekte</p>
       </div>
     </div>
   </section>

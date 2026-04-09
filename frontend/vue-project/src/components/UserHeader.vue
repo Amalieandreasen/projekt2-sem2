@@ -1,4 +1,40 @@
-<script setup></script>
+<script setup>
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+
+const username = ref("");
+const router = useRouter();
+
+onMounted(async () => {
+  try {
+    const res = await fetch("http://localhost:3000/api/me", {
+      method: "GET",
+      credentials: "include",
+    });
+    if (!res.ok) throw new Error("Kunne ikke hente brugeren");
+
+    const data = await res.json();
+    username.value = data.username;
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+const logout = async () => {
+  try {
+    const res = await fetch("http://localhost:3000/api/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+
+    if (!res.ok) throw new Error("Kunne ikke logge ud");
+
+    router.push("/");
+  } catch (err) {
+    console.error(err);
+  }
+};
+</script>
 
 <template>
   <header class="header">
@@ -8,11 +44,11 @@
       </div>
       <div>
         <h1>QuizPlatform</h1>
-        <p>Velkommen tilbage navn!</p>
+        <p>Velkommen tilbage {{ username }}</p>
       </div>
     </div>
 
-    <button class="logout-btn">
+    <button class="logout-btn" v-on:click="logout">
       <span class="material-symbols-rounded"> logout </span>Log ud
     </button>
   </header>
