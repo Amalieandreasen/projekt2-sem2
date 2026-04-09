@@ -141,7 +141,7 @@ app.post("/api/login", async (req, res) => {
       .status(401)
       .json({ message: "Forkert brugernavn eller adgangskode" });
 
-  req.session.user = { username: user.username, role: user.role };
+  req.session.user = { username: user.username.toLowerCase(), role: user.role };
 
   res.json({
     message: "logged in",
@@ -153,6 +153,13 @@ app.post("/api/login", async (req, res) => {
 app.post("/api/logout", (req, res) => {
   req.session.destroy();
   res.json({ message: "logged out" });
+});
+
+app.get("/api/me", requireAuth, (req, res) => {
+  res.json({
+    username: req.session.user.username,
+    role: req.session.user.role,
+  });
 });
 
 // admin user endpoint (admin route)
@@ -258,6 +265,25 @@ app.get("/api/quizzes/:id", requireAuth, async (req, res) => {
     quizName: quiz.quizName,
     questions: sanitizedQuestions,
   });
+});
+
+// hent alle quizzes
+app.get("/api/quizzes", requireAuth, async (req, res) => {
+  const quizzes = await readQuizzes();
+
+  const sanitizedQuizzes = quizzes.map((q) => ({
+    quizId: q.id,
+    quizName: q.quizName,
+    questions: q.questions.length,
+    created: q.created || new Date().toISOString(),
+    status: q.status || "Aktiv",
+    time: q.time || 15,
+    diff: q.diff || "Begynder",
+    best: 0,
+    trys: 0,
+  }));
+
+  res.json(sanitizedQuizzes);
 });
 
 // start quiz
@@ -426,7 +452,7 @@ app.post("/api/quizzes/:id/next", requireAuth, (req, res) => {
 app.get("/api/results", requireAuth, async (req, res) => {
   const results = await readResults();
   const userResults = results.filter(
-    (r) => r.username === req.session.user.username,
+    (r) => r.username.toLowerCase() === req.session.user.username.toLowerCase(),
   );
   res.json(userResults);
 });

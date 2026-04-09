@@ -28,30 +28,5 @@
     "username": "Amalie",
     "password": "$argon2id$v=19$m=65536,t=3,p=4$R8FUZHTOkOp9N4ncO/Z+AA$z11ZuTEMYCQ97D9xAmqctke27DU79c3H3SgArXSiLMM",
     "role": "user"
-  },
-  {
-    "username": "testuser",
-    "password": "$argon2id$v=19$m=65536,t=3,p=4$T2ZXzVbnq1qq3sS/NuRqZQ$HDP9PN9RA4X9Nf9tB4sDu5WOxd0GaAgSi4fk0yVI3Jk",
-    "role": "user"
-  },
-  {
-    "username": "someUser",
-    "password": "$argon2id$v=19$m=65536,t=3,p=4$9QiVozIA7jGLd/xcIx0ntg$3nnkPc87DZIHjFacuF33U/nh9Mxwb+eKaV5fuQ7UDbE",
-    "role": "user"
-  },
-  {
-    "username": "someUser2",
-    "password": "$argon2id$v=19$m=65536,t=3,p=4$1RA+WzFhVYC4WYwkATLATA$GmfR8xpW9+nVLrQdunJQ8YbnXURG//If7MsVexzwrK8",
-    "role": "user"
-  },
-  {
-    "username": "someUser3",
-    "password": "$argon2id$v=19$m=65536,t=3,p=4$6X7kcxHdp1+8W2NPIoJUtA$QbPTNoCltytaEd20mLunYc3KTxxqLK6WWRywkajdu/I",
-    "role": "user"
-  },
-  {
-    "username": "someUser5",
-    "password": "$argon2id$v=19$m=65536,t=3,p=4$ROF7KaXMfS904b+PCp2pZg$TMRJ57mCf/wdDZzanIkjznivXmP9Vo+p3S/Myydto3k",
-    "role": "user"
   }
 ]

@@ -1,4 +1,23 @@
-<script setup></script>
+<script setup>
+import { ref, onMounted } from "vue";
+
+const username = ref("");
+
+onMounted(async () => {
+  try {
+    const res = await fetch("http://localhost:3000/api/me", {
+      method: "GET",
+      credentials: "include",
+    });
+    if (!res.ok) throw new Error("Kunne ikke hente brugeren");
+
+    const data = await res.json();
+    username.value = data.username;
+  } catch (err) {
+    console.error(err);
+  }
+});
+</script>
 
 <template>
   <header class="header">
@@ -8,7 +27,7 @@
       </div>
       <div>
         <h1>QuizPlatform</h1>
-        <p>Velkommen tilbage navn!</p>
+        <p>Velkommen tilbage {{ username }}</p>
       </div>
     </div>
 

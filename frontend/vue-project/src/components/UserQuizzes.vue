@@ -1,21 +1,35 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
-const quizzes = [
-  {
-    id: 1,
-    name: "JavaScript Grundlæggende",
-    desciption:
-      "Test din viden om JavaScript fundamentals, variabler, loops og funktioner",
-    questions: 20,
-    created: "2026-03-15",
-    status: "Aktiv",
-    time: 15,
-    diff: "Begynder",
-    best: 95,
-    trys: 3,
-  },
-];
+const quizzes = ref([]);
+
+onMounted(async () => {
+  try {
+    const res = await fetch("http://localhost:3000/api/quizzes", {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (!res.ok) throw new Error("Kunne ikke hente quizzer");
+
+    const quizData = await res.json();
+
+    quizzes.value = quizData.map((q) => ({
+      id: q.quizId,
+      name: q.quizName,
+      description: q.description || "Dynamisk hentet quiz",
+      questions: q.questions,
+      created: q.created,
+      status: q.status,
+      time: q.time,
+      diff: q.diff,
+      best: q.best,
+      trys: q.trys,
+    }));
+  } catch (err) {
+    console.error(err);
+  }
+});
 </script>
 
 <template>

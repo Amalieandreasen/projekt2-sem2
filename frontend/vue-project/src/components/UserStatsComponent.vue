@@ -17,7 +17,10 @@ defineProps({
         </span>
       </div>
 
-      <h2>{{ card.value }}</h2>
+      <h2>
+        {{ card.value }}
+        <span v-if="card.label === 'Total tid'">min</span>
+      </h2>
       <p>{{ card.sub }}</p>
     </div>
   </div>
