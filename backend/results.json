@@ -7,89 +7,13 @@
     "score": 7,
     "total": 10,
     "answers": [
-      {
-        "questionId": 1,
-        "isCorrect": true,
-        "score": 1
-      },
-      {
-        "questionId": 2,
-        "isCorrect": false,
-        "score": 0
-      },
-      {
-        "questionId": 3,
-        "isCorrect": true,
-        "score": 1
-      }
+      { "questionId": 1, "isCorrect": true, "score": 1 },
+      { "questionId": 2, "isCorrect": false, "score": 0 },
+      { "questionId": 3, "isCorrect": true, "score": 1 }
     ],
     "startTime": "2026-04-07T12:00:00.000Z",
     "endTime": "2026-04-07T12:05:00.000Z",
     "durationsSeconds": 300,
     "timestamp": "2026-04-07T12:05:00.000Z"
-  },
-  {
-    "username": "test-user",
-    "role": "user",
-    "quizId": 1,
-    "quizName": "CSS Basics",
-    "score": 10,
-    "total": 10,
-    "answers": [
-      {
-        "questionId": 3,
-        "isCorrect": true,
-        "score": 1
-      },
-      {
-        "questionId": 5,
-        "isCorrect": true,
-        "score": 1
-      },
-      {
-        "questionId": 10,
-        "isCorrect": true,
-        "score": 1
-      },
-      {
-        "questionId": 7,
-        "isCorrect": true,
-        "score": 1
-      },
-      {
-        "questionId": 6,
-        "isCorrect": true,
-        "score": 1
-      },
-      {
-        "questionId": 2,
-        "isCorrect": true,
-        "score": 1
-      },
-      {
-        "questionId": 8,
-        "isCorrect": true,
-        "score": 1
-      },
-      {
-        "questionId": 4,
-        "isCorrect": true,
-        "score": 1
-      },
-      {
-        "questionId": 1,
-        "isCorrect": true,
-        "score": 1
-      },
-      {
-        "questionId": 9,
-        "isCorrect": true,
-        "score": 1
-      }
-    ],
-    "startTime": "2026-04-09T08:49:33.419Z",
-    "endTime": "2026-04-09T08:50:54.866Z",
-    "durationsSeconds": 81.447,
-    "timestamp": "2026-04-09T08:50:54.866Z"
   }
 ]

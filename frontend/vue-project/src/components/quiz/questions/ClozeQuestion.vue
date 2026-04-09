@@ -15,7 +15,10 @@ const emit = defineEmits(['update:modelValue'])
 
 <template>
   <div class="question-block">
-    <h3 v-html="question.question"></h3>
+    <div class="question-top">
+      <h3 v-html="question.questionHtml"></h3>
+      <span class="type-badge">Cloze</span>
+    </div>
 
     <input
       class="cloze-input"
@@ -34,10 +37,26 @@ const emit = defineEmits(['update:modelValue'])
   gap: var(--space-lg);
 }
 
-.question-block h3 {
+.question-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.question-top h3 {
   margin: 0;
   font-size: 2rem;
   color: var(--color-text);
+}
+
+.type-badge {
+  background: var(--color-surface-muted);
+  color: var(--color-text);
+  border-radius: var(--radius-pill);
+  padding: 6px 12px;
+  font-size: var(--text-sm);
+  white-space: nowrap;
 }
 
 .cloze-input {
