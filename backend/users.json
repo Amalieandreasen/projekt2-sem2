@@ -28,8 +28,6 @@
     "username": "Amalie",
     "password": "$argon2id$v=19$m=65536,t=3,p=4$R8FUZHTOkOp9N4ncO/Z+AA$z11ZuTEMYCQ97D9xAmqctke27DU79c3H3SgArXSiLMM",
     "role": "user"
-<<<<<<< HEAD
-=======
   },
   {
     "username": "testuser",
@@ -55,11 +53,5 @@
     "username": "someUser5",
     "password": "$argon2id$v=19$m=65536,t=3,p=4$ROF7KaXMfS904b+PCp2pZg$TMRJ57mCf/wdDZzanIkjznivXmP9Vo+p3S/Myydto3k",
     "role": "user"
-  },
-  {
-    "username": "MikkelBrath",
-    "password": "$argon2id$v=19$m=65536,t=3,p=4$xOhP6dVW4KESWfqOdgejGA$GuW+n8sgfO+OrWhaeLyTq7+keyftnwG4I6hmM5QK+qA",
-    "role": "user"
->>>>>>> origin/main
   }
 ]
