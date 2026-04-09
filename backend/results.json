@@ -101,5 +101,445 @@
     "endTime": "2026-04-09T12:58:33.343Z",
     "durationsSeconds": 84.913,
     "timestamp": "2026-04-09T12:58:33.343Z"
+  },
+  {
+    "username": "mikkel",
+    "role": "user",
+    "quizId": 1,
+    "quizName": "CSS Basics",
+    "score": 7.333333333333334,
+    "total": 10,
+    "answers": [
+      {
+        "questionId": 1,
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 2,
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 6,
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "questionId": 3,
+        "isCorrect": false,
+        "score": 0.3333333333333333
+      },
+      {
+        "questionId": 8,
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 9,
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 7,
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "questionId": 4,
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 5,
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 10,
+        "isCorrect": true,
+        "score": 1
+      }
+    ],
+    "startTime": "2026-04-09T13:38:55.928Z",
+    "endTime": "2026-04-09T13:40:06.181Z",
+    "durationsSeconds": 70.253,
+    "timestamp": "2026-04-09T13:40:06.181Z"
+  },
+  {
+    "username": "mikkel",
+    "role": "user",
+    "quizId": 1,
+    "quizName": "CSS Basics",
+    "score": 7.333333333333333,
+    "total": 10,
+    "answers": [
+      {
+        "questionId": 9,
+        "question": "Hvilket symbol bruges til class selector?",
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "questionId": 1,
+        "question": "Hvad står CSS for?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 8,
+        "question": "Hvad gør <strong>padding</strong>?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 6,
+        "question": "Hvad bruges <strong>display: flex</strong> til?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 2,
+        "question": "Hvordan ændrer man tekstfarve i CSS?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 5,
+        "question": "Hvilke enheder findes i CSS?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 7,
+        "question": "Hvad hedder property til baggrundsfarve?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 3,
+        "question": "Hvilke er gyldige CSS selectors?",
+        "isCorrect": false,
+        "score": 0.3333333333333333
+      },
+      {
+        "questionId": 4,
+        "question": "Hvad gør <strong>margin</strong>?",
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "questionId": 10,
+        "question": "Hvilke er layout metoder i CSS?",
+        "isCorrect": true,
+        "score": 1
+      }
+    ],
+    "startTime": "2026-04-09T13:41:36.348Z",
+    "endTime": "2026-04-09T13:42:42.657Z",
+    "durationsSeconds": 66.309,
+    "timestamp": "2026-04-09T13:42:42.657Z"
+  },
+  {
+    "username": "mikkel",
+    "role": "user",
+    "quizId": 1,
+    "quizName": "CSS Basics",
+    "score": 9,
+    "total": 10,
+    "answers": [
+      {
+        "questionId": 7,
+        "question": "Hvad hedder property til baggrundsfarve?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 9,
+        "question": "Hvilket symbol bruges til class selector?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 8,
+        "question": "Hvad gør <strong>padding</strong>?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 2,
+        "question": "Hvordan ændrer man tekstfarve i CSS?",
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "questionId": 10,
+        "question": "Hvilke er layout metoder i CSS?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 5,
+        "question": "Hvilke enheder findes i CSS?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 1,
+        "question": "Hvad står CSS for?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 6,
+        "question": "Hvad bruges <strong>display: flex</strong> til?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 3,
+        "question": "Hvilke er gyldige CSS selectors?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 4,
+        "question": "Hvad gør <strong>margin</strong>?",
+        "isCorrect": true,
+        "score": 1
+      }
+    ],
+    "startTime": "2026-04-09T13:50:23.109Z",
+    "endTime": "2026-04-09T13:51:40.706Z",
+    "durationsSeconds": 77.597,
+    "timestamp": "2026-04-09T13:51:40.706Z"
+  },
+  {
+    "username": "mikkel",
+    "role": "user",
+    "quizId": 1,
+    "quizName": "CSS Basics",
+    "score": 7.333333333333334,
+    "total": 10,
+    "answers": [
+      {
+        "questionId": 2,
+        "question": "Hvordan ændrer man tekstfarve i CSS?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 6,
+        "question": "Hvad bruges <strong>display: flex</strong> til?",
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "questionId": 10,
+        "question": "Hvilke er layout metoder i CSS?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 9,
+        "question": "Hvilket symbol bruges til class selector?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 5,
+        "question": "Hvilke enheder findes i CSS?",
+        "isCorrect": false,
+        "score": 0.3333333333333333
+      },
+      {
+        "questionId": 7,
+        "question": "Hvad hedder property til baggrundsfarve?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 8,
+        "question": "Hvad gør <strong>padding</strong>?",
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "questionId": 4,
+        "question": "Hvad gør <strong>margin</strong>?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 3,
+        "question": "Hvilke er gyldige CSS selectors?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 1,
+        "question": "Hvad står CSS for?",
+        "isCorrect": true,
+        "score": 1
+      }
+    ],
+    "startTime": "2026-04-09T13:51:49.451Z",
+    "endTime": "2026-04-09T13:53:30.113Z",
+    "durationsSeconds": 100.662,
+    "timestamp": "2026-04-09T13:53:30.113Z"
+  },
+  {
+    "username": "mikkel",
+    "role": "user",
+    "quizId": 1,
+    "quizName": "CSS Basics",
+    "score": 6,
+    "total": 10,
+    "answers": [
+      {
+        "questionId": 8,
+        "question": "Hvad gør <strong>padding</strong>?",
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "questionId": 8,
+        "question": "Hvad gør <strong>padding</strong>?",
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "questionId": 9,
+        "question": "Hvilket symbol bruges til class selector?",
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "questionId": 6,
+        "question": "Hvad bruges <strong>display: flex</strong> til?",
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "questionId": 3,
+        "question": "Hvilke er gyldige CSS selectors?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 2,
+        "question": "Hvordan ændrer man tekstfarve i CSS?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 5,
+        "question": "Hvilke enheder findes i CSS?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 1,
+        "question": "Hvad står CSS for?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 7,
+        "question": "Hvad hedder property til baggrundsfarve?",
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "questionId": 10,
+        "question": "Hvilke er layout metoder i CSS?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 4,
+        "question": "Hvad gør <strong>margin</strong>?",
+        "isCorrect": true,
+        "score": 1
+      }
+    ],
+    "startTime": "2026-04-09T13:55:21.642Z",
+    "endTime": "2026-04-09T13:56:37.052Z",
+    "durationsSeconds": 75.41,
+    "timestamp": "2026-04-09T13:56:37.052Z"
+  },
+  {
+    "username": "mikkel",
+    "role": "user",
+    "quizId": 1,
+    "quizName": "CSS Basics",
+    "score": 10,
+    "total": 10,
+    "answers": [
+      {
+        "questionId": 6,
+        "question": "Hvad bruges <strong>display: flex</strong> til?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 5,
+        "question": "Hvilke enheder findes i CSS?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 2,
+        "question": "Hvordan ændrer man tekstfarve i CSS?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 1,
+        "question": "Hvad står CSS for?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 8,
+        "question": "Hvad gør <strong>padding</strong>?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 4,
+        "question": "Hvad gør <strong>margin</strong>?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 9,
+        "question": "Hvilket symbol bruges til class selector?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 10,
+        "question": "Hvilke er layout metoder i CSS?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 7,
+        "question": "Hvad hedder property til baggrundsfarve?",
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 3,
+        "question": "Hvilke er gyldige CSS selectors?",
+        "isCorrect": true,
+        "score": 1
+      }
+    ],
+    "startTime": "2026-04-09T14:06:18.574Z",
+    "endTime": "2026-04-09T14:07:11.046Z",
+    "durationsSeconds": 52.472,
+    "timestamp": "2026-04-09T14:07:11.046Z"
   }
 ]

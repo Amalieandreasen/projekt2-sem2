@@ -179,6 +179,7 @@ async function handleNext() {
           v-if="currentQuestion"
           :question="currentQuestion"
           :model-value="selectedAnswer"
+          :disabled="answered"
           @update:model-value="updateAnswer"
         />
 
@@ -219,6 +220,24 @@ async function handleNext() {
           <p><strong>Score:</strong> {{ result.score }} / {{ result.total }}</p>
           <p><strong>Varighed:</strong> {{ result.durationsSeconds }} sekunder</p>
 
+          <div class="result-summary" v-if="result.answers?.length">
+            <h4>Oversigt over besvarelser</h4>
+
+            <div
+              v-for="answer in result.answers"
+              :key="answer.questionId"
+              class="result-item"
+            >
+              <p class="result-question" v-html="answer.question"></p>
+              <p
+                class="result-status"
+                :class="answer.isCorrect ? 'correct' : 'incorrect'"
+              >
+                {{ answer.isCorrect ? 'Korrekt' : 'Forkert' }}
+              </p>
+            </div>
+          </div>
+
           <BaseButton type="button" width="fit-content" @click="$emit('close')">
             Luk
           </BaseButton>
@@ -243,10 +262,12 @@ async function handleNext() {
 .quiz-modal {
   width: 100%;
   max-width: 640px;
+  max-height: 90vh;
   background: var(--color-surface);
   border-radius: var(--radius-lg);
   padding: var(--space-2xl);
   box-shadow: var(--shadow-md);
+  overflow: hidden;
 }
 
 .quiz-actions {
@@ -272,5 +293,51 @@ async function handleNext() {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+}
+
+.result-summary {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.result-summary h4 {
+  margin: 0 0 var(--space-md);
+  font-size: var(--text-lg);
+  color: var(--color-text);
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-sm);
+  background: var(--color-surface-muted);
+  gap: var(--space-md);
+}
+
+.result-question {
+  margin: 0;
+  color: var(--color-text);
+}
+
+.result-status {
+  margin: 0;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.result-status.correct {
+  color: #15803d;
+}
+
+.result-status.incorrect {
+  color: #dc2626;
 }
 </style>

@@ -8,6 +8,10 @@ defineProps({
     type: Array,
     default: () => [],
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emit = defineEmits(["update:modelValue"])
@@ -26,11 +30,13 @@ function selectOption(index) {
         v-for="(option, index) in question.options"
         :key="index"
         class="option-card"
+        :class="{ disabled: disabled }"
       >
         <input
           type="radio"
           :name="`question-${question.id}`"
           :checked="modelValue[0] === index"
+          :disabled="disabled"
           @change="selectOption(index)"
         />
         <span v-html="option"></span>
@@ -72,6 +78,11 @@ function selectOption(index) {
 .option-card:hover {
   border-color: var(--color-focus);
   background: var(--color-surface-muted);
+}
+
+.option-card.disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 .option-card input {

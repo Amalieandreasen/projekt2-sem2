@@ -8,11 +8,17 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emit = defineEmits(["update:modelValue"])
 
 function toggleOption(index) {
+  if (props.disabled) return
+
   const updated = [...props.modelValue]
 
   if (updated.includes(index)) {
@@ -34,10 +40,12 @@ function toggleOption(index) {
         v-for="(option, index) in question.options"
         :key="index"
         class="option-card"
+        :class="{ disabled: disabled }"
       >
         <input
           type="checkbox"
           :checked="modelValue.includes(index)"
+          :disabled="disabled"
           @change="toggleOption(index)"
         />
         <span v-html="option"></span>
@@ -79,6 +87,11 @@ function toggleOption(index) {
 .option-card:hover {
   border-color: var(--color-focus);
   background: var(--color-surface-muted);
+}
+
+.option-card.disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 .option-card input {

@@ -8,6 +8,10 @@ defineProps({
     type: String,
     default: "",
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emit = defineEmits(["update:modelValue"])
@@ -21,6 +25,7 @@ const emit = defineEmits(["update:modelValue"])
       class="cloze-input"
       type="text"
       :value="modelValue"
+      :disabled="disabled"
       @input="emit('update:modelValue', $event.target.value)"
       placeholder="Skriv dit svar her"
     />
@@ -41,7 +46,6 @@ const emit = defineEmits(["update:modelValue"])
 }
 
 .cloze-input {
-  width: 100%;
   padding: var(--input-padding-y) var(--input-padding-x);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
@@ -55,5 +59,11 @@ const emit = defineEmits(["update:modelValue"])
 .cloze-input:focus {
   border-color: var(--color-focus);
   box-shadow: 0 0 0 4px var(--color-focus-ring);
+}
+
+.cloze-input:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background: var(--color-surface-muted);
 }
 </style>

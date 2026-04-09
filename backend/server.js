@@ -440,6 +440,7 @@ app.post("/api/quizzes/:id/answer", requireAuth, (req, res) => {
 
   sessionQuiz.answers.push({
     questionId: question.id,
+    question: question.question,
     isCorrect,
     score: questionScore,
   });
