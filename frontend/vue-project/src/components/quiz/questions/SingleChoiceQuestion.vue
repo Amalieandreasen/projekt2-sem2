@@ -5,39 +5,35 @@ defineProps({
     required: true
   },
   modelValue: {
-    type: [String, null],
-    default: null
+    type: Array,
+    default: () => []
   }
 })
 
 const emit = defineEmits(['update:modelValue'])
 
-function selectOption(optionId) {
-  emit('update:modelValue', optionId)
+function selectOption(index) {
+  emit('update:modelValue', [index])
 }
 </script>
 
 <template>
   <div class="question-block">
-    <div class="question-top">
-      <h3 v-html="question.questionHtml"></h3>
-      <span class="type-badge">Single</span>
-    </div>
+    <h3 v-html="question.question"></h3>
 
-    <div class="options">
+    <div v-if="question.options?.length" class="options">
       <label
-        v-for="option in question.options"
-        :key="option.optionId"
+        v-for="(option, index) in question.options"
+        :key="index"
         class="option-card"
-        :class="{ selected: modelValue === option.optionId }"
       >
         <input
           type="radio"
-          :name="question.questionId"
-          :checked="modelValue === option.optionId"
-          @change="selectOption(option.optionId)"
+          :name="`question-${question.id}`"
+          :checked="modelValue[0] === index"
+          @change="selectOption(index)"
         />
-        <span class="option-text" v-html="option.textHtml"></span>
+        <span v-html="option"></span>
       </label>
     </div>
   </div>
@@ -50,26 +46,10 @@ function selectOption(optionId) {
   gap: var(--space-lg);
 }
 
-.question-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-md);
-}
-
-.question-top h3 {
+.question-block h3 {
   margin: 0;
   font-size: 2rem;
   color: var(--color-text);
-}
-
-.type-badge {
-  background: var(--color-surface-muted);
-  color: var(--color-text);
-  border-radius: var(--radius-pill);
-  padding: 6px 12px;
-  font-size: var(--text-sm);
-  white-space: nowrap;
 }
 
 .options {
@@ -94,12 +74,7 @@ function selectOption(optionId) {
   background: var(--color-surface-muted);
 }
 
-.option-card.selected {
-  border-color: var(--color-focus);
-  background: var(--color-primary-soft);
-}
-
-.option-text {
-  color: var(--color-text);
+.option-card input {
+  margin: 0;
 }
 </style>
