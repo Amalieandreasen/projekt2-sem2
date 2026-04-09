@@ -1,15 +1,39 @@
 <script setup>
-import { ref } from 'vue'
-import BaseButton from '../BaseButton.vue'
+import { ref } from "vue";
+import BaseButton from "../BaseButton.vue";
 
-const emit = defineEmits(['login'])
+const emit = defineEmits(["login"]);
 
-const loginUsername = ref('')
-const loginPassword = ref('')
-const showPassword = ref(false)
+const loginUsername = ref("");
+const loginPassword = ref("");
+const showPassword = ref(false);
+const errorMessage = ref(""); // Serverfejl
 
-function submitUserLogin() {
-  emit('login', false)
+// Funktion til login
+async function submitUserLogin() {
+  errorMessage.value = "";
+  try {
+    const res = await fetch("http://localhost:3000/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({
+        username: loginUsername.value.trim(),
+        password: loginPassword.value,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      errorMessage.value = data.message || "Forkert brugernavn eller password.";
+      return;
+    }
+
+    emit("login", data.user.role === "admin"); // Parent håndterer redirect
+  } catch (err) {
+    errorMessage.value = err.message || "Netværksfejl";
+  }
 }
 </script>
 
@@ -29,8 +53,7 @@ function submitUserLogin() {
             v-model="loginUsername"
             type="text"
             placeholder="Indtast dit brugernavn"
-            required
-          />
+            required />
         </div>
 
         <div class="form-group">
@@ -41,14 +64,12 @@ function submitUserLogin() {
               :type="showPassword ? 'text' : 'password'"
               v-model="loginPassword"
               placeholder="Indtast dit password"
-              required
-            />
+              required />
             <button
               type="button"
               class="toggle-password"
-              @click="showPassword = !showPassword"
-            >
-              {{ showPassword ? 'Skjul' : 'Vis' }}
+              @click="showPassword = !showPassword">
+              {{ showPassword ? "Skjul" : "Vis" }}
             </button>
           </div>
         </div>
@@ -59,6 +80,8 @@ function submitUserLogin() {
           </template>
           Log ind
         </BaseButton>
+
+        <p v-if="errorMessage" class="error-text">{{ errorMessage }}</p>
       </form>
     </div>
   </div>
@@ -68,39 +91,32 @@ function submitUserLogin() {
 .card-header {
   padding: var(--space-2xl) var(--space-2xl) var(--space-md);
 }
-
 .card-header h2 {
   margin: 0 0 var(--space-xs);
   font-size: var(--text-xl);
   color: var(--color-text);
 }
-
 .card-header p {
   margin: 0;
   color: var(--color-text-muted);
 }
-
 .card-content {
   padding: var(--space-lg) var(--space-2xl) var(--space-2xl);
 }
-
 .form {
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
 }
-
 .form-group {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
 }
-
 .form-group label {
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-label);
 }
-
 .form-group input {
   width: 100%;
   max-width: -webkit-fill-available;
@@ -113,20 +129,16 @@ function submitUserLogin() {
     border-color var(--transition-fast),
     box-shadow var(--transition-fast);
 }
-
 .form-group input:focus {
   border-color: var(--color-focus);
   box-shadow: 0 0 0 4px var(--color-focus-ring);
 }
-
 .password-wrapper {
   position: relative;
 }
-
 .password-wrapper input {
   padding-right: var(--input-padding-right-with-toggle);
 }
-
 .toggle-password {
   position: absolute;
   top: 50%;
@@ -140,11 +152,14 @@ function submitUserLogin() {
   cursor: pointer;
   transition: color var(--transition-fast);
 }
-
 .toggle-password:hover {
   color: var(--color-text-label);
 }
-
+.error-text {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-error);
+}
 @media (max-width: 700px) {
   .card-header,
   .card-content {

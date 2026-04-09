@@ -20,7 +20,7 @@ export async function readUsers() {
 }
 
 // gemme data til brugere i users.json
-export async function writeUsers() {
+export async function writeUsers(users) {
   await fs.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
 }
 

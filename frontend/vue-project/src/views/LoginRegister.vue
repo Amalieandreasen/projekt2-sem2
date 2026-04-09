@@ -1,24 +1,30 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import AuthHeader from '../components/auth/AuthHeader.vue'
-import AuthTabs from '../components/auth/AuthTabs.vue'
-import LoginForm from '../components/auth/LoginForm.vue'
-import SignupForm from '../components/auth/SignupForm.vue'
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 
-const router = useRouter()
-const activeTab = ref('login')
+import AuthHeader from "../components/auth/AuthHeader.vue";
+import AuthTabs from "../components/auth/AuthTabs.vue";
+import LoginForm from "../components/auth/LoginForm.vue";
+import SignupForm from "../components/auth/SignupForm.vue";
+
+const router = useRouter();
+const activeTab = ref("login");
 
 function handleLogin(isAdmin) {
   if (isAdmin) {
-    router.push('/admin')
+    router.push("/admin");
   } else {
-    router.push('/bruger')
+    router.push("/bruger");
   }
 }
 
-function handleSignup() {
-  router.push('/bruger')
+async function handleSignup() {
+  try {
+    router.push("/bruger");
+  } catch (err) {
+    console.error(err.message);
+    alert(err.message);
+  }
 }
 </script>
 
@@ -30,15 +36,9 @@ function handleSignup() {
       <AuthTabs v-model="activeTab" />
 
       <div class="card">
-        <LoginForm
-          v-if="activeTab === 'login'"
-          @login="handleLogin"
-        />
+        <LoginForm v-if="activeTab === 'login'" @login="handleLogin" />
 
-        <SignupForm
-          v-else
-          @signup="handleSignup"
-        />
+        <SignupForm v-else @signup="handleSignup" />
       </div>
     </div>
   </div>

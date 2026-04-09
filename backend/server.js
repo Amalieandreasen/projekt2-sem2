@@ -25,6 +25,8 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = 3000;
 
+const allowedOrigins = ["http://localhost:5173", "http://127.0.0.1:5173"];
+
 // middleware
 app.use(express.static(path.join(__dirname, "../frontend/dist")));
 app.use(express.urlencoded({ extended: true }));
@@ -33,7 +35,13 @@ app.use(express.json());
 // cors middleware
 app.use(
   cors({
-    origin: true,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   }),
 );
@@ -115,17 +123,23 @@ app.post("/api/register", async (req, res) => {
 app.post("/api/login", async (req, res) => {
   const { username, password } = req.body;
   if (!username || !password)
-    return res.status(400).json({ message: "Username and password required" });
+    return res
+      .status(400)
+      .json({ message: "Brugernavn og adgangskode påkrævet" });
 
   const users = await readUsers();
   const user = users.find((u) => u.username === username);
 
   if (!user)
-    return res.status(401).json({ message: "Invalid username or password" });
+    return res
+      .status(401)
+      .json({ message: "Forkert brugernavn eller adgangskode" });
 
   const valid = await verifyPassword(password, user.password);
   if (!valid)
-    return res.status(401).json({ message: "Invalid username or password" });
+    return res
+      .status(401)
+      .json({ message: "Forkert brugernavn eller adgangskode" });
 
   req.session.user = { username: user.username, role: user.role };
 
