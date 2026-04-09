@@ -268,9 +268,24 @@ app.post("/api/quizzes/:id/start", requireAuth, async (req, res) => {
   if (!quiz) return res.status(404).json({ message: "Quiz ikke fundet" });
 
   let questions = shuffleArray(quiz.questions).map((q) => {
+    if (!q.options) {
+      return { ...q };
+    }
+
+    const originalOptions = [...q.options];
+    const shuffledOptions = shuffleArray([...q.options]);
+
+    const remappedAnswers = q.answer.map((originalIndex) => {
+      const correctOptionValue = originalOptions[originalIndex];
+      return shuffledOptions.findIndex(
+        (option) => option === correctOptionValue
+      );
+    });
+
     return {
       ...q,
-      options: q.options ? shuffleArray(q.options) : undefined,
+      options: shuffledOptions,
+      answer: remappedAnswers,
     };
   });
 

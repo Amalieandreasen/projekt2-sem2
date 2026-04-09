@@ -1,52 +1,161 @@
 <script setup>
-import { computed, ref } from 'vue'
-import BaseButton from '../BaseButton.vue'
-import QuizHeader from './QuizHeader.vue'
-import QuizInfoBox from './QuizInfoBox.vue'
-import QuizProgress from './QuizProgress.vue'
-import QuizQuestionRenderer from './QuizQuestionRenderer.vue'
+import { computed, ref, watch } from "vue"
+import BaseButton from "../BaseButton.vue"
+import QuizHeader from "./QuizHeader.vue"
+import QuizInfoBox from "./QuizInfoBox.vue"
+import QuizProgress from "./QuizProgress.vue"
+import QuizQuestionRenderer from "./QuizQuestionRenderer.vue"
+
+const API_URL = "http://localhost:3000"
 
 const props = defineProps({
   session: {
     type: Object,
-    required: true
-  }
+    required: true,
+  },
 })
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(["close"])
 
-const currentIndex = ref(0)
-const answers = ref({})
+const currentQuestion = ref(props.session.question)
+const currentIndex = ref(props.session.index)
+const totalQuestions = ref(props.session.total)
+const selectedAnswer = ref(getInitialAnswer(props.session.question))
+const feedback = ref(null)
+const result = ref(null)
+const answered = ref(false)
+const loading = ref(false)
+const errorMessage = ref("")
 
-const currentQuestion = computed(() => props.session.questions[currentIndex.value])
+watch(
+  () => props.session,
+  (newSession) => {
+    currentQuestion.value = newSession.question
+    currentIndex.value = newSession.index
+    totalQuestions.value = newSession.total
+    selectedAnswer.value = getInitialAnswer(newSession.question)
+    feedback.value = null
+    answered.value = false
+    result.value = null
+    errorMessage.value = ""
+  },
+  { immediate: true }
+)
+
+function getInitialAnswer(question) {
+  if (!question) return null
+  if (question.type === "multiple") return []
+  if (question.type === "cloze") return ""
+  return []
+}
 
 const progressValue = computed(() => {
-  return ((currentIndex.value + 1) / props.session.questions.length) * 100
-})
-
-const currentAnswer = computed(() => {
-  const question = currentQuestion.value
-  const saved = answers.value[question.questionId]
-
-  if (saved !== undefined) return saved
-  if (question.type === 'multiple') return []
-  if (question.type === 'cloze') return ''
-  return null
+  return ((currentIndex.value + 1) / totalQuestions.value) * 100
 })
 
 function updateAnswer(value) {
-  answers.value[currentQuestion.value.questionId] = value
+  selectedAnswer.value = value
 }
 
-function nextQuestion() {
-  if (currentIndex.value < props.session.questions.length - 1) {
-    currentIndex.value++
+async function handleSubmitAnswer() {
+  try {
+    loading.value = true
+    errorMessage.value = ""
+
+    const response = await fetch(
+      `${API_URL}/api/quizzes/${props.session.quiz.quizId}/answer`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          answer: selectedAnswer.value,
+        }),
+      }
+    )
+
+    const data = await response.json()
+
+    if (!response.ok) {
+      throw new Error(data.message || "Kunne ikke sende svar")
+    }
+
+    feedback.value = data
+    answered.value = true
+  } catch (error) {
+    errorMessage.value = error.message
+    console.error(error)
+  } finally {
+    loading.value = false
   }
 }
 
-function previousQuestion() {
-  if (currentIndex.value > 0) {
-    currentIndex.value--
+async function handleNext() {
+  try {
+    loading.value = true
+    errorMessage.value = ""
+
+    const isLastQuestion = currentIndex.value >= totalQuestions.value - 1
+
+    if (isLastQuestion) {
+      const submitResponse = await fetch(
+        `${API_URL}/api/quizzes/${props.session.quiz.quizId}/submit`,
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      )
+
+      const submitData = await submitResponse.json()
+
+      if (!submitResponse.ok) {
+        throw new Error(submitData.message || "Kunne ikke afslutte quiz")
+      }
+
+      result.value = submitData.result
+      return
+    }
+
+    const nextResponse = await fetch(
+      `${API_URL}/api/quizzes/${props.session.quiz.quizId}/next`,
+      {
+        method: "POST",
+        credentials: "include",
+      }
+    )
+
+    const nextData = await nextResponse.json()
+
+    if (!nextResponse.ok) {
+      throw new Error(nextData.message || "Kunne ikke gå til næste spørgsmål")
+    }
+
+    const questionResponse = await fetch(
+      `${API_URL}/api/quizzes/${props.session.quiz.quizId}/question`,
+      {
+        credentials: "include",
+      }
+    )
+
+    const questionData = await questionResponse.json()
+
+    if (!questionResponse.ok) {
+      throw new Error(questionData.message || "Kunne ikke hente næste spørgsmål")
+    }
+
+    currentQuestion.value = questionData.question
+    currentIndex.value = questionData.index
+    totalQuestions.value = questionData.total
+    selectedAnswer.value = getInitialAnswer(questionData.question)
+    feedback.value = null
+    answered.value = false
+  } catch (error) {
+    errorMessage.value = error.message
+    console.error(error)
+  } finally {
+    loading.value = false
   }
 }
 </script>
@@ -58,53 +167,63 @@ function previousQuestion() {
         :title="session.quiz.quizName"
         :difficulty="session.quiz.difficulty"
         :current-index="currentIndex"
-        :total-questions="session.questions.length"
+        :total-questions="totalQuestions"
         @close="$emit('close')"
       />
 
-      <QuizInfoBox />
+      <template v-if="!result">
+        <QuizInfoBox />
+        <QuizProgress :value="progressValue" />
 
-      <QuizProgress :value="progressValue" />
+        <QuizQuestionRenderer
+          v-if="currentQuestion"
+          :question="currentQuestion"
+          :model-value="selectedAnswer"
+          @update:model-value="updateAnswer"
+        />
 
-      <QuizQuestionRenderer
-        :question="currentQuestion"
-        :model-value="currentAnswer"
-        @update:model-value="updateAnswer"
-      />
+        <div v-if="feedback" class="feedback-box">
+          <p>{{ feedback.correct ? "Korrekt svar" : "Forkert svar" }}</p>
+          <p>Point: {{ feedback.score }}</p>
+        </div>
 
-      <div class="quiz-footer">
-        <p class="helper-text">
-          Vælg dit svar og klik videre
-        </p>
+        <p v-if="errorMessage" class="error-text">{{ errorMessage }}</p>
 
         <div class="quiz-actions">
           <BaseButton
+            v-if="!answered"
             type="button"
             width="fit-content"
-            variant="outline"
-            color="gray"
-            :disabled="currentIndex === 0"
-            @click="previousQuestion"
+            :disabled="loading"
+            @click="handleSubmitAnswer"
           >
-            <template #iconLeft>
-              <span class="material-symbols-rounded">arrow_back</span>
-            </template>
-            Tilbage
+            Aflever svar
           </BaseButton>
 
           <BaseButton
+            v-else
             type="button"
             width="fit-content"
-            :disabled="currentIndex === session.questions.length - 1"
-            @click="nextQuestion"
+            :disabled="loading"
+            @click="handleNext"
           >
-            Næste
-            <template #iconRight>
-              <span class="material-symbols-rounded">arrow_forward</span>
-            </template>
+            {{ currentIndex === totalQuestions - 1 ? "Afslut quiz" : "Næste spørgsmål" }}
           </BaseButton>
         </div>
-      </div>
+      </template>
+
+      <template v-else>
+        <div class="result-box">
+          <h3>Quiz afsluttet</h3>
+          <p><strong>Quiz:</strong> {{ result.quizName }}</p>
+          <p><strong>Score:</strong> {{ result.score }} / {{ result.total }}</p>
+          <p><strong>Varighed:</strong> {{ result.durationsSeconds }} sekunder</p>
+
+          <BaseButton type="button" width="fit-content" @click="$emit('close')">
+            Luk
+          </BaseButton>
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -130,38 +249,28 @@ function previousQuestion() {
   box-shadow: var(--shadow-md);
 }
 
-.quiz-footer {
+.quiz-actions {
   margin-top: var(--space-2xl);
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-lg);
+  justify-content: flex-end;
 }
 
-.helper-text {
-  margin: 0;
-  font-size: var(--text-md);
-  color: var(--color-text-muted);
+.feedback-box {
+  margin-top: var(--space-lg);
+  padding: var(--space-lg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-muted);
 }
 
-.quiz-actions {
+.error-text {
+  margin-top: var(--space-md);
+  color: var(--color-error);
+}
+
+.result-box {
   display: flex;
+  flex-direction: column;
   gap: var(--space-md);
-  flex-wrap: wrap;
-}
-
-@media (max-width: 700px) {
-  .quiz-modal {
-    padding: var(--space-lg);
-  }
-
-  .quiz-footer {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .quiz-actions {
-    justify-content: space-between;
-  }
 }
 </style>

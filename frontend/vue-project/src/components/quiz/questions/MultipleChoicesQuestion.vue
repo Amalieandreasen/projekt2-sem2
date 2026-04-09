@@ -2,49 +2,45 @@
 const props = defineProps({
   question: {
     type: Object,
-    required: true
+    required: true,
   },
   modelValue: {
     type: Array,
-    default: () => []
-  }
+    default: () => [],
+  },
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(["update:modelValue"])
 
-function toggleOption(optionId) {
+function toggleOption(index) {
   const updated = [...props.modelValue]
 
-  if (updated.includes(optionId)) {
-    emit('update:modelValue', updated.filter(item => item !== optionId))
+  if (updated.includes(index)) {
+    emit("update:modelValue", updated.filter((i) => i !== index))
     return
   }
 
-  updated.push(optionId)
-  emit('update:modelValue', updated)
+  updated.push(index)
+  emit("update:modelValue", updated)
 }
 </script>
 
 <template>
   <div class="question-block">
-    <div class="question-top">
-      <h3 v-html="question.questionHtml"></h3>
-      <span class="type-badge">Multiple</span>
-    </div>
+    <h3 v-html="question.question"></h3>
 
-    <div class="options">
+    <div v-if="question.options?.length" class="options">
       <label
-        v-for="option in question.options"
-        :key="option.optionId"
+        v-for="(option, index) in question.options"
+        :key="index"
         class="option-card"
-        :class="{ selected: modelValue.includes(option.optionId) }"
       >
         <input
           type="checkbox"
-          :checked="modelValue.includes(option.optionId)"
-          @change="toggleOption(option.optionId)"
+          :checked="modelValue.includes(index)"
+          @change="toggleOption(index)"
         />
-        <span class="option-text" v-html="option.textHtml"></span>
+        <span v-html="option"></span>
       </label>
     </div>
   </div>
@@ -57,26 +53,10 @@ function toggleOption(optionId) {
   gap: var(--space-lg);
 }
 
-.question-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-md);
-}
-
-.question-top h3 {
+.question-block h3 {
   margin: 0;
   font-size: 2rem;
   color: var(--color-text);
-}
-
-.type-badge {
-  background: var(--color-surface-muted);
-  color: var(--color-text);
-  border-radius: var(--radius-pill);
-  padding: 6px 12px;
-  font-size: var(--text-sm);
-  white-space: nowrap;
 }
 
 .options {
@@ -101,12 +81,7 @@ function toggleOption(optionId) {
   background: var(--color-surface-muted);
 }
 
-.option-card.selected {
-  border-color: var(--color-focus);
-  background: var(--color-primary-soft);
-}
-
-.option-text {
-  color: var(--color-text);
+.option-card input {
+  margin: 0;
 }
 </style>

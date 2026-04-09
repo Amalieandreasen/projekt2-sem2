@@ -2,23 +2,23 @@
 defineProps({
   title: {
     type: String,
-    required: true
+    required: true,
   },
   difficulty: {
     type: String,
-    default: ''
+    default: "",
   },
   currentIndex: {
     type: Number,
-    required: true
+    required: true,
   },
   totalQuestions: {
     type: Number,
-    required: true
-  }
+    required: true,
+  },
 })
 
-defineEmits(['close'])
+defineEmits(["close"])
 </script>
 
 <template>
