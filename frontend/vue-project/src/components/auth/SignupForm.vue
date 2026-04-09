@@ -1,120 +1,143 @@
 <script setup>
-import { computed, ref } from 'vue'
-import PasswordRules from './PasswordRules.vue'
-import BaseButton from '../BaseButton.vue'
+import { computed, ref } from "vue";
+import PasswordRules from "./PasswordRules.vue";
+import BaseButton from "../BaseButton.vue";
 
-const emit = defineEmits(['signup'])
+const emit = defineEmits(["signup"]);
 
-const signupUsername = ref('')
-const email = ref('')
-const password = ref('')
-const confirmPassword = ref('')
-const showPasswordSignup = ref(false)
+const signupUsername = ref("");
+const email = ref("");
+const password = ref("");
+const confirmPassword = ref("");
+const showPasswordSignup = ref(false);
 
-const usernameTouched = ref(false)
-const emailTouched = ref(false)
-const passwordTouched = ref(false)
-const confirmPasswordTouched = ref(false)
-const submitAttempted = ref(false)
+const usernameTouched = ref(false);
+const emailTouched = ref(false);
+const passwordTouched = ref(false);
+const confirmPasswordTouched = ref(false);
+const submitAttempted = ref(false);
+const errorMessage = ref("");
 
-const hasMinLength = computed(() => password.value.length >= 8)
-const hasUpperCase = computed(() => /[A-Z]/.test(password.value))
-const hasLowerCase = computed(() => /[a-z]/.test(password.value))
-const hasNumber = computed(() => /[0-9]/.test(password.value))
-const hasSpecialChar = computed(() => /[!@#$%^&*(),.?":{}|<>]/.test(password.value))
+// Password rules
+const hasMinLength = computed(() => password.value.length >= 8);
+const hasUpperCase = computed(() => /[A-Z]/.test(password.value));
+const hasLowerCase = computed(() => /[a-z]/.test(password.value));
+const hasNumber = computed(() => /[0-9]/.test(password.value));
+const hasSpecialChar = computed(() =>
+  /[!@#$%^&*(),.?":{}|<>]/.test(password.value),
+);
 
-const isPasswordStrong = computed(() => {
-  return (
+const isPasswordStrong = computed(
+  () =>
     hasMinLength.value &&
     hasUpperCase.value &&
     hasLowerCase.value &&
     hasNumber.value &&
-    hasSpecialChar.value
-  )
-})
+    hasSpecialChar.value,
+);
 
-const passwordsMatch = computed(() => {
-  return password.value === confirmPassword.value && confirmPassword.value.length > 0
-})
+const passwordsMatch = computed(
+  () =>
+    password.value === confirmPassword.value &&
+    confirmPassword.value.length > 0,
+);
 
+// Form validations
 const usernameError = computed(() => {
-  if (!usernameTouched.value && !submitAttempted.value) return ''
-  if (!signupUsername.value.trim()) return 'Brugernavn er påkrævet.'
-  if (signupUsername.value.trim().length < 5) return 'Brugernavn skal være mindst 5 tegn.'
-  return ''
-})
+  if (!usernameTouched.value && !submitAttempted.value) return "";
+  if (!signupUsername.value.trim()) return "Brugernavn er påkrævet.";
+  if (signupUsername.value.trim().length < 5)
+    return "Brugernavn skal være mindst 5 tegn.";
+  return "";
+});
 
 const emailError = computed(() => {
-  if (!emailTouched.value && !submitAttempted.value) return ''
-  if (!email.value.trim()) return 'Email er påkrævet.'
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  if (!emailRegex.test(email.value)) return 'Indtast en gyldig emailadresse.'
-  return ''
-})
+  if (!emailTouched.value && !submitAttempted.value) return "";
+  if (!email.value.trim()) return "Email er påkrævet.";
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email.value)) return "Indtast en gyldig emailadresse.";
+  return "";
+});
 
 const passwordError = computed(() => {
-  if (!passwordTouched.value && !submitAttempted.value) return ''
-  if (!password.value) return 'Password er påkrævet.'
-  if (!isPasswordStrong.value) return 'Password opfylder ikke alle krav.'
-  return ''
-})
+  if (!passwordTouched.value && !submitAttempted.value) return "";
+  if (!password.value) return "Password er påkrævet.";
+  if (!isPasswordStrong.value) return "Password opfylder ikke alle krav.";
+  return "";
+});
 
 const confirmPasswordError = computed(() => {
-  if (!confirmPasswordTouched.value && !submitAttempted.value) return ''
-  if (!confirmPassword.value) return 'Bekræft dit password.'
-  if (!passwordsMatch.value) return 'Passwords matcher ikke.'
-  return ''
-})
+  if (!confirmPasswordTouched.value && !submitAttempted.value) return "";
+  if (!confirmPassword.value) return "Bekræft dit password.";
+  if (!passwordsMatch.value) return "Passwords matcher ikke.";
+  return "";
+});
 
-const isFormValid = computed(() => {
-  return (
+const isFormValid = computed(
+  () =>
     !usernameError.value &&
     !emailError.value &&
     !passwordError.value &&
-    !confirmPasswordError.value
-  )
-})
+    !confirmPasswordError.value,
+);
 
-function submitSignup() {
-  submitAttempted.value = true
-  usernameTouched.value = true
-  emailTouched.value = true
-  passwordTouched.value = true
-  confirmPasswordTouched.value = true
+// ✨ Hovedfunktion: fetch til backend
+async function submitSignup() {
+  submitAttempted.value = true;
+  usernameTouched.value = true;
+  emailTouched.value = true;
+  passwordTouched.value = true;
+  confirmPasswordTouched.value = true;
+  errorMessage.value = "";
 
-  if (isFormValid.value) {
-    emit('signup', {
-      username: signupUsername.value.trim(),
-      email: email.value.trim(),
-      password: password.value
-    })
+  if (!isFormValid.value) return;
+
+  try {
+    const res = await fetch("http://localhost:3000/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({
+        username: signupUsername.value.trim(),
+        email: email.value.trim(),
+        password: password.value,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      errorMessage.value =
+        data.message || "Noget gik galt ved oprettelse af bruger.";
+      return;
+    }
+
+    emit("signup"); // Parent kan redirecte
+  } catch (err) {
+    errorMessage.value = err.message || "Netværksfejl";
   }
 }
 
+// Animation functions
 function enter(el) {
-  el.style.height = '0'
-  el.style.opacity = '0'
-
+  el.style.height = "0";
+  el.style.opacity = "0";
   requestAnimationFrame(() => {
-    el.style.transition = 'height 0.35s ease, opacity 0.35s ease'
-    el.style.height = el.scrollHeight + 'px'
-    el.style.opacity = '1'
-  })
-
-  setTimeout(() => {
-    el.style.height = 'auto'
-  }, 350)
+    el.style.transition = "height 0.35s ease, opacity 0.35s ease";
+    el.style.height = el.scrollHeight + "px";
+    el.style.opacity = "1";
+  });
+  setTimeout(() => (el.style.height = "auto"), 350);
 }
 
 function leave(el) {
-  el.style.height = el.scrollHeight + 'px'
-  el.style.opacity = '1'
-
+  el.style.height = el.scrollHeight + "px";
+  el.style.opacity = "1";
   requestAnimationFrame(() => {
-    el.style.transition = 'height 0.25s ease, opacity 0.25s ease'
-    el.style.height = '0'
-    el.style.opacity = '0'
-  })
+    el.style.transition = "height 0.25s ease, opacity 0.25s ease";
+    el.style.height = "0";
+    el.style.opacity = "0";
+  });
 }
 </script>
 
@@ -135,8 +158,7 @@ function leave(el) {
             type="text"
             placeholder="Vælg et brugernavn"
             :class="{ invalid: usernameError }"
-            @blur="usernameTouched = true"
-          />
+            @blur="usernameTouched = true" />
           <p v-if="usernameError" class="error-text">{{ usernameError }}</p>
         </div>
 
@@ -148,8 +170,7 @@ function leave(el) {
             type="email"
             placeholder="din.email@eksempel.dk"
             :class="{ invalid: emailError }"
-            @blur="emailTouched = true"
-          />
+            @blur="emailTouched = true" />
           <p v-if="emailError" class="error-text">{{ emailError }}</p>
         </div>
 
@@ -162,14 +183,12 @@ function leave(el) {
               v-model="password"
               placeholder="Vælg et stærkt password"
               :class="{ invalid: passwordError }"
-              @blur="passwordTouched = true"
-            />
+              @blur="passwordTouched = true" />
             <button
               type="button"
               class="toggle-password"
-              @click="showPasswordSignup = !showPasswordSignup"
-            >
-              {{ showPasswordSignup ? 'Skjul' : 'Vis' }}
+              @click="showPasswordSignup = !showPasswordSignup">
+              {{ showPasswordSignup ? "Skjul" : "Vis" }}
             </button>
           </div>
           <p v-if="passwordError" class="error-text">{{ passwordError }}</p>
@@ -182,8 +201,7 @@ function leave(el) {
               :has-upper-case="hasUpperCase"
               :has-lower-case="hasLowerCase"
               :has-number="hasNumber"
-              :has-special-char="hasSpecialChar"
-            />
+              :has-special-char="hasSpecialChar" />
           </div>
         </Transition>
 
@@ -195,9 +213,10 @@ function leave(el) {
             type="password"
             placeholder="Indtast password igen"
             :class="{ invalid: confirmPasswordError }"
-            @blur="confirmPasswordTouched = true"
-          />
-          <p v-if="confirmPasswordError" class="error-text">{{ confirmPasswordError }}</p>
+            @blur="confirmPasswordTouched = true" />
+          <p v-if="confirmPasswordError" class="error-text">
+            {{ confirmPasswordError }}
+          </p>
         </div>
 
         <BaseButton type="submit" :disabled="!isFormValid">
@@ -206,6 +225,8 @@ function leave(el) {
           </template>
           Opret bruger
         </BaseButton>
+
+        <p v-if="errorMessage" class="error-text">{{ errorMessage }}</p>
 
         <p class="small-text">
           Ved at oprette en bruger accepterer du vores vilkår og betingelser.
@@ -220,39 +241,32 @@ function leave(el) {
 .card-header {
   padding: var(--space-2xl) var(--space-2xl) var(--space-md);
 }
-
 .card-header h2 {
   margin: 0 0 var(--space-xs);
   font-size: var(--text-xl);
   color: var(--color-text);
 }
-
 .card-header p {
   margin: 0;
   color: var(--color-text-muted);
 }
-
 .card-content {
   padding: var(--space-lg) var(--space-2xl) var(--space-2xl);
 }
-
 .form {
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
 }
-
 .form-group {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
 }
-
 .form-group label {
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-label);
 }
-
 .form-group input {
   width: 100%;
   max-width: -webkit-fill-available;
@@ -265,31 +279,25 @@ function leave(el) {
     border-color var(--transition-fast),
     box-shadow var(--transition-fast);
 }
-
 .form-group input:focus {
   border-color: var(--color-focus);
   box-shadow: 0 0 0 4px var(--color-focus-ring);
 }
-
 .form-group input.invalid {
   border-color: var(--color-error);
   box-shadow: 0 0 0 4px var(--color-error-ring);
 }
-
 .error-text {
   margin: 0;
   font-size: var(--text-sm);
   color: var(--color-error);
 }
-
 .password-wrapper {
   position: relative;
 }
-
 .password-wrapper input {
   padding-right: var(--input-padding-right-with-toggle);
 }
-
 .toggle-password {
   position: absolute;
   top: 50%;
@@ -303,15 +311,12 @@ function leave(el) {
   cursor: pointer;
   transition: color var(--transition-fast);
 }
-
 .toggle-password:hover {
   color: var(--color-text-label);
 }
-
 .rules-wrapper {
   overflow: hidden;
 }
-
 .small-text {
   margin: 0;
   text-align: center;
@@ -319,7 +324,6 @@ function leave(el) {
   line-height: 1.5;
   color: var(--color-text-muted);
 }
-
 @media (max-width: 700px) {
   .card-header,
   .card-content {
