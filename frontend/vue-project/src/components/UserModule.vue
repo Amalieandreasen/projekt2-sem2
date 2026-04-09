@@ -52,17 +52,13 @@ onMounted(() => {
       <thead>
         <tr>
           <th>Brugernavn</th>
-          <th>Email</th>
           <th>Rolle</th>
-          <th>Tilmeldt</th>
-          <th>Quizzer Taget</th>
-          <th>Handlinger</th>
+          <th>Quizzer Gennemført</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="user in users" :key="user.id">
           <td>{{ user.username }}</td>
-          <td>{{ user.email }}</td>
           <td>
             <span
               class="badge"
@@ -73,9 +69,8 @@ onMounted(() => {
           <td>{{ user.joined }}</td>
           <td>{{ user.quizzesTaken }}</td>
           <td class="actions">
-            <button class="text-btn">Rediger</button>
-            <button class="icon-btn delete">
-              <span class="material-symbols-rounded"> delete </span>
+            <button class="text-btn">
+              <span class="material-symbols-rounded"> person_edit </span>
             </button>
           </td>
         </tr>
@@ -83,7 +78,6 @@ onMounted(() => {
     </table>
     <p v-if="loading">Henter brugere...</p>
     <p v-else-if="error" class="error">{{ error }}</p>
-
 
     <CreateUserModal
       :isOpen="showCreateUserModal"

@@ -1,129 +1,134 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import UploadQuizModal from './UploadQuizModal.vue'
-import QuizModal from '@/components/quiz/QuizModal.vue'
+import { ref, onMounted } from "vue";
+import UploadQuizModal from "./UploadQuizModal.vue";
+import QuizModal from "@/components/quiz/QuizModal.vue";
 
-const API_URL = 'http://localhost:3000'
+const API_URL = "http://localhost:3000";
 
-const showModal = ref(false)
-const showQuizModal = ref(false)
-const quizSession = ref(null)
+const showModal = ref(false);
+const showQuizModal = ref(false);
+const quizSession = ref(null);
 
-const quizzes = ref([])
-const loading = ref(false)
-const quizLoading = ref(false)
-const error = ref('')
+const quizzes = ref([]);
+const loading = ref(false);
+const quizLoading = ref(false);
+const error = ref("");
 
 async function fetchQuizzes() {
   try {
-    loading.value = true
-    error.value = ''
+    loading.value = true;
+    error.value = "";
 
     const res = await fetch(`${API_URL}/api/admin/quizzes`, {
-      credentials: 'include'
-    })
+      credentials: "include",
+    });
 
-    const data = await res.json()
+    const data = await res.json();
 
     if (!res.ok) {
-      throw new Error(data.message || 'Kunne ikke hente quizzer')
+      throw new Error(data.message || "Kunne ikke hente quizzer");
     }
 
-    quizzes.value = data
+    quizzes.value = data;
   } catch (err) {
-    console.error(err)
-    error.value = err.message
+    console.error(err);
+    error.value = err.message;
   } finally {
-    loading.value = false
+    loading.value = false;
   }
 }
 
 function getQuestionCount(quiz) {
-  return Array.isArray(quiz.questions) ? quiz.questions.length : 0
+  return Array.isArray(quiz.questions) ? quiz.questions.length : 0;
 }
 
 function handleQuizCreated(newQuiz) {
-  quizzes.value.unshift(newQuiz)
+  quizzes.value.unshift(newQuiz);
 }
 
 function formatDate(date) {
-  if (!date) return '—'
-  return new Date(date).toLocaleString('da-DK')
+  if (!date) return "—";
+  return new Date(date).toLocaleString("da-DK");
 }
 
 async function deleteQuiz(quizId) {
-  const confirmed = window.confirm('Er du sikker på, at du vil slette denne quiz?')
-  if (!confirmed) return
+  const confirmed = window.confirm(
+    "Er du sikker på, at du vil slette denne quiz?",
+  );
+  if (!confirmed) return;
 
   try {
     const res = await fetch(`${API_URL}/api/admin/quizzes/${quizId}`, {
-      method: 'DELETE',
-      credentials: 'include'
-    })
+      method: "DELETE",
+      credentials: "include",
+    });
 
-    const data = await res.json()
+    const data = await res.json();
 
     if (!res.ok) {
-      throw new Error(data.message || 'Kunne ikke slette quizzen')
+      throw new Error(data.message || "Kunne ikke slette quizzen");
     }
 
-    quizzes.value = quizzes.value.filter(q => q.id !== quizId)
+    quizzes.value = quizzes.value.filter((q) => q.id !== quizId);
   } catch (err) {
-    console.error(err)
-    alert('Fejl: ' + err.message)
+    console.error(err);
+    alert("Fejl: " + err.message);
   }
 }
 
 async function startQuiz(quiz) {
   try {
-    quizLoading.value = true
-    error.value = ''
+    quizLoading.value = true;
+    error.value = "";
 
     const startRes = await fetch(`${API_URL}/api/quizzes/${quiz.id}/start`, {
-      method: 'POST',
-      credentials: 'include'
-    })
+      method: "POST",
+      credentials: "include",
+    });
 
-    const startData = await startRes.json()
+    const startData = await startRes.json();
 
     if (!startRes.ok) {
-      throw new Error(startData.message || 'Kunne ikke starte quiz')
+      throw new Error(startData.message || "Kunne ikke starte quiz");
     }
 
-    const questionRes = await fetch(`${API_URL}/api/quizzes/${quiz.id}/question`, {
-      credentials: 'include'
-    })
+    const questionRes = await fetch(
+      `${API_URL}/api/quizzes/${quiz.id}/question`,
+      {
+        credentials: "include",
+      },
+    );
 
-    const questionData = await questionRes.json()
+    const questionData = await questionRes.json();
 
     if (!questionRes.ok) {
-      throw new Error(questionData.message || 'Kunne ikke hente spørgsmål')
+      throw new Error(questionData.message || "Kunne ikke hente spørgsmål");
     }
 
     quizSession.value = {
       quiz: {
         quizId: quiz.id,
         quizName: quiz.quizName,
-        difficulty: quiz.diff || quiz.difficulty || '—',
-        numberOfQuestions: questionData.total
+        difficulty: quiz.diff || quiz.difficulty || "—",
+        numberOfQuestions: questionData.total,
       },
       question: questionData.question,
       index: questionData.index,
-      total: questionData.total
-    }
+      total: questionData.total,
+    };
 
-    showQuizModal.value = true
+    showQuizModal.value = true;
   } catch (err) {
-    console.error(err)
-    error.value = err.message
+    console.error(err);
+    error.value = err.message;
   } finally {
-    quizLoading.value = false
+    quizLoading.value = false;
   }
 }
 
 onMounted(() => {
-  fetchQuizzes()
-})
+  fetchQuizzes();
+});
 </script>
 
 <template>
@@ -134,9 +139,7 @@ onMounted(() => {
         <p>Upload, administrer og slet quiz filer</p>
       </div>
 
-      <button class="action-btn" @click="showModal = true">
-        Upload Quiz
-      </button>
+      <button class="action-btn" @click="showModal = true">Upload Quiz</button>
     </div>
 
     <p v-if="loading">Henter quizzer...</p>
@@ -163,18 +166,17 @@ onMounted(() => {
             <button
               class="text-btn start"
               :disabled="quizLoading"
-              @click="startQuiz(quiz)"
-            >
-              {{ quizLoading ? 'Starter...' : 'Start quiz' }}
+              @click="startQuiz(quiz)">
+              <span class="material-symbols-rounded">play_circle</span>
+              {{ quizLoading ? "Starter..." : "Start quiz" }}
             </button>
 
-            <button class="text-btn">Rediger</button>
+            <button class="text-btn">
+              <span class="material-symbols-rounded">edit_document</span>
+            </button>
 
-            <button
-              class="icon-btn delete"
-              @click="deleteQuiz(quiz.id)"
-            >
-              Slet
+            <button class="icon-btn delete" @click="deleteQuiz(quiz.id)">
+              <span class="material-symbols-rounded">delete</span>
             </button>
           </td>
         </tr>
@@ -184,14 +186,12 @@ onMounted(() => {
     <UploadQuizModal
       :isOpen="showModal"
       @close="showModal = false"
-      @created="handleQuizCreated"
-    />
+      @created="handleQuizCreated" />
 
     <QuizModal
       v-if="showQuizModal && quizSession"
       :session="quizSession"
-      @close="showQuizModal = false"
-    />
+      @close="showQuizModal = false" />
   </section>
 </template>
 
@@ -231,6 +231,7 @@ onMounted(() => {
   font-weight: 600;
   align-items: center;
   display: flex;
+  gap: 8px;
 }
 
 .data-table {
@@ -259,6 +260,9 @@ onMounted(() => {
   background: none;
   cursor: pointer;
   font-size: 14px;
+  align-items: center;
+  display: flex;
+  gap: 8px;
 }
 
 .start {

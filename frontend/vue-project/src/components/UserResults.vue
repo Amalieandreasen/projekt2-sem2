@@ -46,6 +46,7 @@ onMounted(async () => {
 
 <style scoped>
 .results-module {
+  margin-top: 20px;
   padding: 24px;
   background: white;
   border: 1px solid #ddd;

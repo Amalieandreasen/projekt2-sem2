@@ -112,7 +112,15 @@ async function startQuiz(quiz) {
         <p>{{ quiz.description }}</p>
 
         <div class="quiz-info">
-          <span class="badge badge-green">{{ quiz.diff }}</span>
+          <span
+            class="badge"
+            :class="{
+              'green-badge': quiz.diff === 'Let',
+              'yellow-badge': quiz.diff === 'Medium',
+              'red-badge': quiz.diff === 'Svær',
+            }">
+            {{ quiz.diff }}
+          </span>
           <p>{{ quiz.time }} min</p>
           <p>{{ quiz.questions }} spørgsmål</p>
           <p>{{ quiz.trys }} forsøg</p>
@@ -168,9 +176,17 @@ async function startQuiz(quiz) {
   font-weight: 600;
 }
 
-.badge-green {
+.green-badge {
   background: #dcfce7;
   color: #166534;
+}
+.yellow-badge {
+  background: #f2dfa2;
+  color: #db8205;
+}
+.red-badge {
+  background: #f2aaaa;
+  color: #dc2626;
 }
 
 .action-btn {
