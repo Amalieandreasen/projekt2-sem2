@@ -1,4 +1,4 @@
-export async function sanitizeHTML(str) {
+export function sanitizeHTML(str) {
   if (!str) return "";
 
   const allowedTags = ["strong", "br", "span"];
@@ -8,20 +8,36 @@ export async function sanitizeHTML(str) {
 
   str = str.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, (match, tag) => {
     tag = tag.toLowerCase();
+
     if (!allowedTags.includes(tag)) return "";
+
+    const isClosingTag = match.startsWith("</");
+    if (isClosingTag) return `</${tag}>`;
+
+    if (tag === "br") return "<br>";
+
     if (tag === "span") {
       const styleMatch = match.match(/style="([^"]*)"/i);
+
       if (styleMatch) {
         const styles = styleMatch[1]
           .split(";")
           .map((s) => s.trim())
           .filter((s) => {
-            return allowedStyles.some((a) => s.includes(a));
+            const lower = s.toLowerCase();
+            return (
+              lower === "font-style: italic" ||
+              lower === "text-decoration: underline"
+            );
           })
-          .join(";");
+          .join("; ");
+
         return `<span${styles ? ` style="${styles}"` : ""}>`;
       }
+
+      return "<span>";
     }
+
     return `<${tag}>`;
   });
 

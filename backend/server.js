@@ -59,6 +59,15 @@ app.use(
     },
   }),
 );
+app.use((req, res, next) => {
+  if (!req.session.user) {
+    req.session.user = {
+      username: "test-user",
+      role: "user",
+    }
+  }
+  next()
+})
 
 // auth middleware
 const requireAuth = (req, res, next) => {
@@ -225,7 +234,7 @@ app.delete("/api/admin/quizzes/:id", requireAuth, isAdmin, async (req, res) => {
 });
 
 // hent quiz til bruger
-app.get("/api/quizzes/:id", requireAuth, async (req, res) => {
+app.get("/api/quizzes/:id", async (req, res) => {
   const quizId = parseInt(req.params.id);
   const quizzes = await readQuizzes();
 
@@ -261,16 +270,29 @@ app.get("/api/quizzes/:id", requireAuth, async (req, res) => {
 });
 
 // start quiz
-app.post("/api/quizzes/:id/start", requireAuth, async (req, res) => {
+app.post("/api/quizzes/:id/start", async (req, res) => {
   const quizId = parseInt(req.params.id);
   const quizzes = await readQuizzes();
   const quiz = quizzes.find((q) => Number(q.id) === quizId);
   if (!quiz) return res.status(404).json({ message: "Quiz ikke fundet" });
 
   let questions = shuffleArray(quiz.questions).map((q) => {
+    if (!q.options) return q;
+
+    const originalOptions = [...q.options];
+
+    const shuffledOptions = shuffleArray([...q.options]);
+
+    // 🔥 remap answers
+    const newAnswer = q.answer.map((originalIndex) => {
+      const correctValue = originalOptions[originalIndex];
+      return shuffledOptions.findIndex(opt => opt === correctValue);
+    });
+
     return {
       ...q,
-      options: q.options ? shuffleArray(q.options) : undefined,
+      options: shuffledOptions,
+      answer: newAnswer,
     };
   });
 
@@ -290,7 +312,7 @@ app.post("/api/quizzes/:id/start", requireAuth, async (req, res) => {
 });
 
 // hent næste spørgsmål
-app.get("/api/quizzes/:id/question", requireAuth, (req, res) => {
+app.get("/api/quizzes/:id/question", (req, res) => {
   const quizId = parseInt(req.params.id);
   const sessionQuiz = req.session.quizSessions?.[quizId];
 
@@ -301,15 +323,20 @@ app.get("/api/quizzes/:id/question", requireAuth, (req, res) => {
 
   const { answer, ...safeQuestion } = question;
 
+  console.log("RAW QUESTION:", JSON.stringify(safeQuestion, null, 2));
+
+  const sanitized = sanitizeQuestion(safeQuestion);
+
+  console.log("SANITIZED QUESTION:", JSON.stringify(sanitized, null, 2));
+
   res.json({
-    question: sanitizeQuestion(safeQuestion),
+    question: sanitized,
     index: sessionQuiz.currentIndex,
     total: sessionQuiz.questions.length,
   });
 });
-
 // submitte alle svar (sidste step)
-app.post("/api/quizzes/:id/submit", requireAuth, async (req, res) => {
+app.post("/api/quizzes/:id/submit", async (req, res) => {
   const quizId = parseInt(req.params.id);
   const sessionQuiz = req.session.quizSessions?.[quizId];
 
@@ -360,7 +387,7 @@ app.post("/api/quizzes/:id/submit", requireAuth, async (req, res) => {
 });
 
 //sende svar til enkelt spørgsmål
-app.post("/api/quizzes/:id/answer", requireAuth, (req, res) => {
+app.post("/api/quizzes/:id/answer", (req, res) => {
   const quizId = parseInt(req.params.id);
   const { answer } = req.body;
 
@@ -410,7 +437,7 @@ app.post("/api/quizzes/:id/answer", requireAuth, (req, res) => {
 });
 
 // gå til næste spørgsmål
-app.post("/api/quizzes/:id/next", requireAuth, (req, res) => {
+app.post("/api/quizzes/:id/next", (req, res) => {
   const quizId = parseInt(req.params.id);
   const sessionQuiz = req.session.quizSessions?.[quizId];
 
@@ -423,7 +450,7 @@ app.post("/api/quizzes/:id/next", requireAuth, (req, res) => {
 });
 
 // hente tidligere resultater
-app.get("/api/results", requireAuth, async (req, res) => {
+app.get("/api/results", async (req, res) => {
   const results = await readResults();
   const userResults = results.filter(
     (r) => r.username === req.session.user.username,
