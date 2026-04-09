@@ -6,9 +6,9 @@
     </div>
 
     <ul>
-      <li><strong>Enkelt valg</strong> (radio buttons): Fuldt point for korrekt svar</li>
-      <li><strong>Flere valg</strong> (checkboxes): Vælg alle korrekte svar. Kun nogle korrekte = brøkdel af point. Forkerte valg = point trækkes fra</li>
-      <li><strong>Udfyld</strong> (tekstfelt): Fuldt point for korrekt tekstsvar</li>
+      <li><strong>Enkelt valg</strong>: Fuldt point for korrekt svar</li>
+      <li><strong>Flere valg</strong>: Korrekte valg giver delpoint, forkerte valg trækker fra</li>
+      <li><strong>Udfyld</strong>: Fuldt point for korrekt tekstsvar</li>
     </ul>
   </div>
 </template>
