@@ -116,6 +116,12 @@ app.post("/api/register", async (req, res) => {
   users.push(newUser);
 
   await writeUsers(users);
+
+  req.session.user = {
+    username: username.toLowerCase(),
+    role: "user",
+  };
+
   res.status(201).json({ message: "User created" });
 });
 
@@ -304,7 +310,7 @@ app.post("/api/quizzes/:id/start", requireAuth, async (req, res) => {
     const remappedAnswers = q.answer.map((originalIndex) => {
       const correctOptionValue = originalOptions[originalIndex];
       return shuffledOptions.findIndex(
-        (option) => option === correctOptionValue
+        (option) => option === correctOptionValue,
       );
     });
 

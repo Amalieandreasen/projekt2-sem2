@@ -25,7 +25,7 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to) => {
   if (to.meta.requiresAuth || to.meta.isAdmin) {
     try {
       const res = await fetch("http://localhost:3000/api/me", {
@@ -33,19 +33,21 @@ router.beforeEach(async (to, from, next) => {
         credentials: "include",
       });
 
-      if (!res.ok) throw new Error("Ikke logget ind");
+      if (!res.ok) throw new Error();
+
       const user = await res.json();
-      if (user.username) {
-        next();
-      } else {
-        next("/");
+
+      if (to.meta.isAdmin && user.role !== "admin") {
+        return "/bruger";
       }
-    } catch (err) {
-      next("/");
+
+      return true;
+    } catch {
+      return "/";
     }
-  } else {
-    next();
   }
+
+  return true;
 });
 
 export default router;
