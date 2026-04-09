@@ -46,7 +46,7 @@ function formatDuration(seconds) {
 
 function formatScore(score, total) {
     if (score == null || total == null || total === 0) return '—'
-    return `${score}/${total}`
+    return `${Math.floor(score * 100) / 100}/${total}`
 }
 
 onMounted(() => {

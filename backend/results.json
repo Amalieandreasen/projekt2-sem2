@@ -1,1 +1,105 @@
-[]
+[
+  {
+    "username": "amalie",
+    "role": "user",
+    "quizId": 3,
+    "quizName": "Javascript TEST",
+    "score": 0,
+    "total": 5,
+    "answers": [
+      {
+        "questionId": 4,
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "questionId": 5,
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "questionId": 3,
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "questionId": 1,
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "questionId": 2,
+        "isCorrect": false,
+        "score": 0
+      }
+    ],
+    "startTime": "2026-04-09T12:55:56.472Z",
+    "endTime": "2026-04-09T12:57:02.789Z",
+    "durationsSeconds": 66.317,
+    "timestamp": "2026-04-09T12:57:02.789Z"
+  },
+  {
+    "username": "amalie",
+    "role": "user",
+    "quizId": 2,
+    "quizName": "Advanced CSS",
+    "score": 4.666666666666666,
+    "total": 10,
+    "answers": [
+      {
+        "questionId": 2,
+        "isCorrect": false,
+        "score": 0.3333333333333333
+      },
+      {
+        "questionId": 8,
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 4,
+        "isCorrect": false,
+        "score": 0.6666666666666666
+      },
+      {
+        "questionId": 3,
+        "isCorrect": true,
+        "score": 1
+      },
+      {
+        "questionId": 9,
+        "isCorrect": false,
+        "score": 0.6666666666666666
+      },
+      {
+        "questionId": 10,
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "questionId": 1,
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "questionId": 7,
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "questionId": 5,
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "questionId": 6,
+        "isCorrect": true,
+        "score": 1
+      }
+    ],
+    "startTime": "2026-04-09T12:57:08.430Z",
+    "endTime": "2026-04-09T12:58:33.343Z",
+    "durationsSeconds": 84.913,
+    "timestamp": "2026-04-09T12:58:33.343Z"
+  }
+]
