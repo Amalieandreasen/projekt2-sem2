@@ -1,32 +1,32 @@
 [
   {
     "username": "Richard",
-    "password": "$argon2id$v=19$m=65536,t=3,p=4$DqiYNnLBfI2vE8Vg5jZkTQ$sCCbTdR9KTCW952/npH6YgoNONoOl/PbnKvCcTDxQ0o",
+    "password": "$argon2id$v=19$m=65536,t=3,p=4$0a8XlsJSXpo38H0UjPD6uA$MG0K5Bwkl+RZrH6fm8du9OTKZ6vp6DQQngo+n7xe0hY",
     "role": "admin"
   },
   {
     "username": "Laila",
-    "password": "$argon2id$v=19$m=65536,t=3,p=4$snl7b2iIHpCqTo/LnAvHbQ$gET/CwwhpOeFHzfdsBAIIEPlDneTcPpidcI6LNK9r3c",
+    "password": "$argon2id$v=19$m=65536,t=3,p=4$/CEZJBLUYALsQL+WSWSDxA$nQbPFwwBImUg7yInjPvNmf9r34dXsKxK1m9jYrA+ijA",
     "role": "admin"
   },
   {
     "username": "Mikkel",
-    "password": "$argon2id$v=19$m=65536,t=3,p=4$P6WeubStvWNM6kDtH12u3g$kinCnHOT20WYNVDRXCAVpwRNRAzmJ6o0yacbhpwaAbU",
-    "role": "user"
-  },
-  {
-    "username": "Amalie",
-    "password": "$argon2id$v=19$m=65536,t=3,p=4$01phVJsiwU/eYy3rDMOISA$a06Su5KAZRBkwcysdP8IeDT8hKuk2hvymwoTLsQf9sA",
+    "password": "$argon2id$v=19$m=65536,t=3,p=4$L7kEWchZtmPIfZThs4Q2xA$lGeXV6UdK3oayZraxlVihKD1r7fZlhIoD8O3XVHsixs",
     "role": "user"
   },
   {
     "username": "Mathias",
-    "password": "$argon2id$v=19$m=65536,t=3,p=4$2wl+RWrP3MYSgby71aJSrg$xCo0XC3FZ655WywTXF16526JKWatTQx61BIn6iKmUvY",
+    "password": "$argon2id$v=19$m=65536,t=3,p=4$wzKAiB6fxZ+Y7wWu0hKh1g$xzfWVSTq/M1DkTQCbCjEtIfwvH+0WEF/EaSVtVhNumo",
     "role": "user"
   },
   {
     "username": "Malou",
-    "password": "$argon2id$v=19$m=65536,t=3,p=4$YWkfzrskR6njwesiE/7mFg$tvz7KNjiwm8vtp/xtNS8h/e5qad+h/pY0B9gVbINSSc",
+    "password": "$argon2id$v=19$m=65536,t=3,p=4$DrYWfib4woyfisMS+1Cz3w$tCuASHJpOWNVjy+F77Dn9xc85ABMhQs9pVEwmvb+hy0",
+    "role": "user"
+  },
+  {
+    "username": "Amalie",
+    "password": "$argon2id$v=19$m=65536,t=3,p=4$hx4aElzdFmEAlRAhcanY+w$80Bi8rXoyux4mDMholg8T8fiHsS632p3g3lNYvatYAw",
     "role": "user"
   }
 ]
