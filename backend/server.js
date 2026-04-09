@@ -81,12 +81,7 @@ const isAdmin = (req, res, next) => {
 // routes
 app.get("/", (req, res) => {
   res.send(`
-    <h1>Secure Login Lab</h1>
-    <ul>
-      <li><a href="/index.html">Login</a></li>
-      <li><a href="/profile.html">Profile</a> (requires login)</li>
-      <li><a href="/debug/users">Debug: users</a></li>
-    </ul>
+    <h1>Quiz API</h1>
   `);
 });
 
@@ -171,7 +166,11 @@ app.get("/api/me", requireAuth, (req, res) => {
 // admin user endpoint (admin route)
 app.get("/api/admin/users", requireAuth, isAdmin, async (req, res) => {
   const users = await readUsers();
-  res.json(users);
+  const safeUsers = users.map((u) => ({
+    username: u.username,
+    role: u.role,
+  }));
+  res.json(safeUsers);
 });
 
 // hent alle quizzer (admin route)
