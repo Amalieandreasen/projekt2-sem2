@@ -13,6 +13,10 @@ const props = defineProps({
     type: [Array, String, null],
     default: null,
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emit = defineEmits(["update:modelValue"])
@@ -31,6 +35,7 @@ const currentComponent = computed(() => componentMap[props.question.type])
     :is="currentComponent"
     :question="question"
     :model-value="modelValue"
+    :disabled="disabled"
     @update:model-value="emit('update:modelValue', $event)"
   />
 </template>
