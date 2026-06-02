@@ -55,7 +55,7 @@ app.use(
     cookie: {
       httpOnly: true,
       sameSite: "lax",
-      secure: false,
+      secure: false, //true med https
     },
   }),
 );
